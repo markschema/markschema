@@ -1382,16 +1382,8 @@ export class SectionBuilder {
     )
   }
 
-  headingLevel(depth: number) {
-    return new SectionChildrenBuilder(this.name, depth, undefined, this.blockOrderConfig)
-  }
-
   subsections(depth: number) {
-    return this.headingLevel(depth)
-  }
-
-  children(depth: number) {
-    return this.headingLevel(depth)
+    return new SectionChildrenBuilder(this.name, depth, undefined, this.blockOrderConfig)
   }
 }
 

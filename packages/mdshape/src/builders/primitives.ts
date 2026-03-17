@@ -226,34 +226,139 @@ export class BooleanSchema extends BaseSchema<unknown, boolean> {
   }
 }
 
-type DateOutputMode = 'date' | 'string'
+type DateInputMode = 'iso' | 'date-only' | 'timestamp'
+type DateOutputMode = 'date' | 'iso' | 'date-only' | 'timestamp'
+type LegacyDateOutputMode = 'date' | 'string'
+type DateOptions = {
+  input?: DateInputMode
+  output?: DateOutputMode
+  as?: LegacyDateOutputMode
+}
+type DefaultDateOutputForInput<TInput extends DateInputMode> = TInput extends 'date-only'
+  ? 'date-only'
+  : TInput extends 'timestamp'
+    ? 'timestamp'
+    : 'date'
+type ResolveDateOutput<
+  TInput extends DateInputMode,
+  TOutput extends DateOutputMode | undefined,
+> = TOutput extends DateOutputMode ? TOutput : DefaultDateOutputForInput<TInput>
+type DateSchemaOutput<TOutput extends DateOutputMode> = TOutput extends 'date'
+  ? Date
+  : TOutput extends 'timestamp'
+    ? number
+    : string
 
-export class DateSchema<TMode extends DateOutputMode = 'date'> extends BaseSchema<
-  unknown,
-  TMode extends 'date' ? Date : string
-> {
-  private readonly mode: TMode
+const ISO_DATE_TIME_PATTERN =
+  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?(?:Z|[+-]\d{2}:\d{2})$/
+const DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 
-  constructor(mode: TMode) {
-    super()
-    this.mode = mode
+const parseIsoDateInput = (input: unknown): Date | undefined => {
+  if (input instanceof Date) {
+    return Number.isNaN(input.getTime()) ? undefined : new Date(input.getTime())
   }
 
-  protected _parse(input: unknown, ctx: ParseContext): (TMode extends 'date' ? Date : string) | undefined {
-    const parsed = new Date(input as any)
-    if (Number.isNaN(parsed.getTime())) {
+  if (typeof input !== 'string') {
+    return undefined
+  }
+
+  const value = input.trim()
+  if (!ISO_DATE_TIME_PATTERN.test(value)) {
+    return undefined
+  }
+
+  const parsed = new Date(value)
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed
+}
+
+const parseDateOnlyInput = (input: unknown): Date | undefined => {
+  if (typeof input !== 'string') {
+    return undefined
+  }
+
+  const value = input.trim()
+  if (!DATE_ONLY_PATTERN.test(value)) {
+    return undefined
+  }
+
+  const parsed = new Date(`${value}T00:00:00.000Z`)
+  if (Number.isNaN(parsed.getTime())) {
+    return undefined
+  }
+
+  return parsed.toISOString().slice(0, 10) === value ? parsed : undefined
+}
+
+const parseTimestampInput = (input: unknown): Date | undefined => {
+  const rawValue =
+    typeof input === 'number'
+      ? input
+      : typeof input === 'string' && /^-?\d+$/.test(input.trim())
+        ? Number(input.trim())
+        : Number.NaN
+
+  if (!Number.isFinite(rawValue)) {
+    return undefined
+  }
+
+  // Accept both Unix seconds and milliseconds; normalize to milliseconds.
+  const ms = Math.abs(rawValue) < 1e12 ? rawValue * 1000 : rawValue
+  const parsed = new Date(ms)
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed
+}
+
+const formatDateOutput = <TOutput extends DateOutputMode>(
+  parsed: Date,
+  outputMode: TOutput,
+): DateSchemaOutput<TOutput> => {
+  if (outputMode === 'date') {
+    return parsed as DateSchemaOutput<TOutput>
+  }
+
+  const iso = parsed.toISOString()
+  if (outputMode === 'iso') {
+    return iso as DateSchemaOutput<TOutput>
+  }
+
+  if (outputMode === 'timestamp') {
+    return parsed.getTime() as DateSchemaOutput<TOutput>
+  }
+
+  return iso.slice(0, 10) as DateSchemaOutput<TOutput>
+}
+
+export class DateSchema<
+  TInput extends DateInputMode = 'iso',
+  TOutput extends DateOutputMode = 'date',
+> extends BaseSchema<unknown, DateSchemaOutput<TOutput>> {
+  constructor(
+    private readonly inputMode: TInput,
+    private readonly outputMode: TOutput,
+  ) {
+    super()
+  }
+
+  protected _parse(input: unknown, ctx: ParseContext): DateSchemaOutput<TOutput> | undefined {
+    const parsed =
+      this.inputMode === 'date-only'
+        ? parseDateOnlyInput(input)
+        : this.inputMode === 'timestamp'
+          ? parseTimestampInput(input)
+          : parseIsoDateInput(input)
+    if (!parsed) {
       addIssue(ctx, {
         code: 'invalid_date',
-        message: 'Invalid date',
+        message:
+          this.inputMode === 'date-only'
+            ? 'Invalid date-only value, expected YYYY-MM-DD'
+            : this.inputMode === 'timestamp'
+              ? 'Invalid timestamp, expected epoch seconds or milliseconds'
+              : 'Invalid ISO date, expected YYYY-MM-DDTHH:mm[:ss[.sss]](Z|±HH:MM)',
       })
       return undefined
     }
 
-    if (this.mode === 'string') {
-      return parsed.toISOString() as TMode extends 'date' ? Date : string
-    }
-
-    return parsed as TMode extends 'date' ? Date : string
+    return formatDateOutput(parsed, this.outputMode)
   }
 }
 
@@ -492,8 +597,35 @@ export const email = () => new EmailSchema()
 export const url = () => new UrlSchema()
 export const number = () => new NumberSchema()
 export const boolean = () => new BooleanSchema()
-export const date = <TMode extends DateOutputMode = 'date'>(options?: { as?: TMode }) =>
-  new DateSchema((options?.as ?? 'date') as TMode)
+export function date(): DateSchema<'iso', 'date'>
+export function date<TInput extends DateInputMode>(
+  options: { input: TInput },
+): DateSchema<TInput, DefaultDateOutputForInput<TInput>>
+export function date<TOutput extends DateOutputMode>(
+  options: { output: TOutput },
+): DateSchema<'iso', TOutput>
+export function date<TInput extends DateInputMode, TOutput extends DateOutputMode>(
+  options: { input: TInput; output: TOutput },
+): DateSchema<TInput, TOutput>
+export function date<TLegacy extends LegacyDateOutputMode>(
+  options: { as: TLegacy },
+): DateSchema<'iso', TLegacy extends 'string' ? 'iso' : 'date'>
+export function date(options?: DateOptions): DateSchema<any, any> {
+  const inputMode = options?.input ?? 'iso'
+  const outputMode =
+    options?.output ??
+    (options?.as === 'string'
+      ? 'iso'
+      : options?.as === 'date'
+        ? 'date'
+        : inputMode === 'date-only'
+          ? 'date-only'
+          : inputMode === 'timestamp'
+            ? 'timestamp'
+            : 'date')
+
+  return new DateSchema(inputMode, outputMode)
+}
 export const literal = <TValue extends string | number | boolean>(value: TValue) => new LiteralSchema(value)
 export const enumeration = <TValues extends readonly [string, ...string[]]>(values: TValues) => new EnumSchema(values)
 
@@ -571,7 +703,7 @@ export const coerce = {
 
       return value
     }, boolean()),
-  date: <TMode extends DateOutputMode = 'date'>(options?: { as?: TMode }) =>
+  date: (options?: DateOptions) =>
     preprocess((value: unknown) => {
       if (value instanceof Date) {
         return value
@@ -581,5 +713,5 @@ export const coerce = {
       }
 
       return value as any
-    }, date(options)),
+    }, (date as (options?: DateOptions) => DateSchema<any, any>)(options)),
 }

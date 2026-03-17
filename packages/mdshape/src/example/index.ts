@@ -389,7 +389,7 @@ const RunbookSchema = md.document(
       Site: md.url(),
       ExperienceYears: md.number().int().min(1).max(50),
       JoinDate: md
-        .date({ as: 'string' })
+        .date({ output: 'iso' })
         .transform((value) => value.slice(0, 10)),
       NewsletterOptIn: md.boolean(),
       Active: md.boolean().optional().default(true),
@@ -413,7 +413,7 @@ const RunbookSchema = md.document(
         .paragraphs([md.string().min(10)]),
       scenes: md
         .section('5. EXECUTION TIMELINE')
-        .headingLevel(3)
+        .subsections(3)
         .sequence([
           '[00:00-02:00] - Fraud Spike and Incident Intake',
           '[02:00-04:00] - Signal Ingestion and Feature Pipeline',
@@ -426,7 +426,7 @@ const RunbookSchema = md.document(
     }),
     tools: md
       .section('6. TOOLS AND ARTIFACTS')
-      .headingLevel(3)
+      .subsections(3)
       .sequence([
         'Operational Tools',
         'Frameworks and Templates',
@@ -452,7 +452,7 @@ const RunbookSchema = md.document(
       .sequence(['Pillar', 'Track', 'Topics', 'Level', 'Persona']),
     references: md
       .section('8. REFERENCES')
-      .headingLevel(3)
+      .subsections(3)
       .sequence([
         'Reports and Research',
         'Benchmark Data',
