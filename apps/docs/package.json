@@ -1,0 +1,22 @@
+{
+  "name": "@markschema/docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs",
+    "check-links": "node scripts/check-doc-links.mjs",
+    "check-semantics": "node scripts/check-doc-semantics.mjs",
+    "check-examples": "node scripts/check-doc-examples.mjs",
+    "fix-examples": "node scripts/fix-doc-examples.mjs",
+    "check-quality": "npm run check-links && npm run check-semantics && npm run check-examples"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  },
+  "dependencies": {
+    "@markschema/mdshape": "*"
+  }
+}

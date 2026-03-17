@@ -1,0 +1,218 @@
+@import '@markschema/tailwind-config';
+
+:root {
+  --radius: 0.75rem;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #4f46e5;
+  --primary-foreground: #eef2ff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #e2e8f0;
+  --accent-foreground: #0f172a;
+  --destructive: #dc2626;
+  --destructive-foreground: #fef2f2;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #6366f1;
+}
+
+:root[data-playground-theme='dark'] {
+  --background: #090b11;
+  --foreground: #e5e7eb;
+  --card: #0f1117;
+  --card-foreground: #e5e7eb;
+  --popover: #11131a;
+  --popover-foreground: #e5e7eb;
+  --primary: #7c83ff;
+  --primary-foreground: #0f1220;
+  --secondary: #171a24;
+  --secondary-foreground: #dbe2f0;
+  --muted: #151925;
+  --muted-foreground: #94a3b8;
+  --accent: #1c2030;
+  --accent-foreground: #f1f5f9;
+  --destructive: #ef4444;
+  --destructive-foreground: #fee2e2;
+  --border: #242a3a;
+  --input: #242a3a;
+  --ring: #8b92ff;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', 'Avenir Next', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.play-preview-root {
+  color: var(--foreground);
+  font-size: 0.95rem;
+  line-height: 1.68;
+}
+
+.play-preview-root h1,
+.play-preview-root h2,
+.play-preview-root h3,
+.play-preview-root h4,
+.play-preview-root h5,
+.play-preview-root h6 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.26;
+}
+
+.play-preview-root h1 {
+  font-size: 1.7rem;
+  font-weight: 760;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  padding-bottom: 0.35rem;
+}
+
+.play-preview-root h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  padding-bottom: 0.25rem;
+}
+
+.play-preview-root h3 {
+  font-size: 1.12rem;
+  font-weight: 700;
+}
+
+.play-preview-root p,
+.play-preview-root ul,
+.play-preview-root ol,
+.play-preview-root blockquote,
+.play-preview-root pre,
+.play-preview-root table {
+  margin: 0.7rem 0;
+}
+
+.play-preview-root ul,
+.play-preview-root ol {
+  padding-left: 1.25rem;
+}
+
+.play-preview-root a {
+  color: color-mix(in srgb, var(--primary) 88%, #5ac8fa);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.play-preview-root code {
+  border-radius: 0.35rem;
+  padding: 0.1rem 0.35rem;
+  background: color-mix(in srgb, var(--muted) 90%, transparent);
+}
+
+.play-preview-root pre {
+  overflow: auto;
+  border-radius: 0.7rem;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--secondary) 92%, var(--background));
+  padding: 0.85rem;
+}
+
+.play-preview-root pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.play-preview-root blockquote {
+  border-left: 3px solid color-mix(in srgb, var(--primary) 70%, transparent);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.play-preview-root table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+}
+
+.play-preview-root th,
+.play-preview-root td {
+  border: 1px solid var(--border);
+  text-align: left;
+  padding: 0.45rem 0.55rem;
+}
+
+.play-preview-root th {
+  background: color-mix(in srgb, var(--accent) 72%, var(--background));
+}
+
+.play-heading-button {
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+}
+
+.play-heading-button:hover {
+  color: color-mix(in srgb, var(--primary) 70%, var(--foreground));
+}
+
+.play-heading-active {
+  outline: 1px dashed color-mix(in srgb, var(--ring) 72%, transparent);
+  outline-offset: 2px;
+}
+
+.play-editor-line-error {
+  background: color-mix(in srgb, var(--destructive) 11%, transparent);
+  border-left: 2px solid var(--destructive);
+}
+
+.play-editor-line-warning {
+  background: color-mix(in srgb, #f59e0b 10%, transparent);
+  border-left: 2px solid #f59e0b;
+}
+
+.play-editor-line-info {
+  background: color-mix(in srgb, #38bdf8 9%, transparent);
+  border-left: 2px solid #38bdf8;
+}
+
+.play-editor-glyph-error,
+.play-editor-glyph-warning,
+.play-editor-glyph-info {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 6px 6px;
+}
+
+.play-editor-glyph-error {
+  background-size: 9px 9px;
+  background-image: radial-gradient(circle, var(--destructive) 0 40%, transparent 46%);
+}
+
+.play-editor-glyph-warning {
+  background-image: radial-gradient(circle, #f59e0b 0 40%, transparent 46%);
+}
+
+.play-editor-glyph-info {
+  background-image: radial-gradient(circle, #38bdf8 0 40%, transparent 46%);
+}

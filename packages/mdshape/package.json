@@ -1,0 +1,35 @@
+{
+  "name": "@markschema/mdshape",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Type-safe Markdown validation with a schema-first API.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@markschema/typescript-config": "*",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.2",
+    "vitest": "^4.0.18"
+  }
+}

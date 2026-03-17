@@ -1,0 +1,605 @@
+{
+  "document": {
+    "methods": [
+      {
+        "text": "document",
+        "slug": "document"
+      },
+      {
+        "text": "ordered -> strict order",
+        "slug": "ordered-strict-order"
+      },
+      {
+        "text": "ordered -> flexible order",
+        "slug": "ordered-flexible-order"
+      }
+    ],
+    "sharedAux": []
+  },
+  "object": {
+    "methods": [
+      {
+        "text": "object",
+        "slug": "object"
+      },
+      {
+        "text": "pick",
+        "slug": "pick"
+      },
+      {
+        "text": "omit",
+        "slug": "omit"
+      },
+      {
+        "text": "partial",
+        "slug": "partial"
+      },
+      {
+        "text": "required",
+        "slug": "required"
+      },
+      {
+        "text": "refine",
+        "slug": "refine"
+      },
+      {
+        "text": "extend",
+        "slug": "extend"
+      },
+      {
+        "text": "merge",
+        "slug": "merge"
+      },
+      {
+        "text": "strip",
+        "slug": "strip"
+      },
+      {
+        "text": "strict",
+        "slug": "strict"
+      },
+      {
+        "text": "passthrough",
+        "slug": "passthrough"
+      },
+      {
+        "text": "catchall",
+        "slug": "catchall"
+      }
+    ],
+    "sharedAux": []
+  },
+  "section": {
+    "methods": [
+      {
+        "text": "section",
+        "slug": "section"
+      },
+      {
+        "text": "fields",
+        "slug": "fields"
+      },
+      {
+        "text": "sequence",
+        "slug": "sequence"
+      },
+      {
+        "text": "paragraph",
+        "slug": "paragraph"
+      },
+      {
+        "text": "paragraphs",
+        "slug": "paragraphs"
+      },
+      {
+        "text": "list",
+        "slug": "list"
+      },
+      {
+        "text": "tables",
+        "slug": "tables"
+      },
+      {
+        "text": "blockquotes",
+        "slug": "blockquotes"
+      },
+      {
+        "text": "code",
+        "slug": "code"
+      },
+      {
+        "text": "links",
+        "slug": "links"
+      },
+      {
+        "text": "images",
+        "slug": "images"
+      },
+      {
+        "text": "footnotes -> strict references",
+        "slug": "footnotes-strict-references"
+      },
+      {
+        "text": "footnotes -> loose references",
+        "slug": "footnotes-loose-references"
+      },
+      {
+        "text": "taskList",
+        "slug": "task-list"
+      },
+      {
+        "text": "orderedLists",
+        "slug": "ordered-lists"
+      },
+      {
+        "text": "nestedLists -> flat output",
+        "slug": "nested-lists-flat-output"
+      },
+      {
+        "text": "nestedLists -> tree output",
+        "slug": "nested-lists-tree-output"
+      },
+      {
+        "text": "referenceLinks",
+        "slug": "reference-links"
+      },
+      {
+        "text": "autolinks",
+        "slug": "auto-links"
+      },
+      {
+        "text": "htmlBlocks",
+        "slug": "html-blocks"
+      },
+      {
+        "text": "htmlInlines -> raw tags",
+        "slug": "html-inlines-raw-tags"
+      },
+      {
+        "text": "htmlInlines -> elements",
+        "slug": "html-inline-elements"
+      },
+      {
+        "text": "blockOrder",
+        "slug": "block-order"
+      },
+      {
+        "text": "each",
+        "slug": "each"
+      },
+      {
+        "text": "subsections",
+        "slug": "subsections"
+      },
+      {
+        "text": "children",
+        "slug": "children"
+      }
+    ],
+    "sharedAux": [
+      "each",
+      "headers",
+      "min",
+      "sequence"
+    ]
+  },
+  "heading": {
+    "methods": [
+      {
+        "text": "heading",
+        "slug": "heading"
+      },
+      {
+        "text": "regex -> basic",
+        "slug": "heading-regex"
+      },
+      {
+        "text": "regex -> strict",
+        "slug": "regex-strict"
+      }
+    ],
+    "sharedAux": [
+      "regex"
+    ]
+  },
+  "heading-text": {
+    "methods": [
+      {
+        "text": "headingText",
+        "slug": "heading-text"
+      },
+      {
+        "text": "min",
+        "slug": "min"
+      },
+      {
+        "text": "regex",
+        "slug": "regex"
+      }
+    ],
+    "sharedAux": [
+      "min",
+      "regex"
+    ]
+  },
+  "match": {
+    "methods": [
+      {
+        "text": "label -> value",
+        "slug": "value"
+      },
+      {
+        "text": "labels -> values -> basic",
+        "slug": "values-basic"
+      },
+      {
+        "text": "labels -> values -> min",
+        "slug": "values-with-threshold"
+      },
+      {
+        "text": "labels -> values -> enforceOrder",
+        "slug": "enforce-order"
+      },
+      {
+        "text": "labels -> entries -> basic",
+        "slug": "entries-basic"
+      },
+      {
+        "text": "labels -> entries -> each",
+        "slug": "each"
+      },
+      {
+        "text": "labels -> entries -> enforceOrder",
+        "slug": "entries-each-enforce-order"
+      }
+    ],
+    "sharedAux": [
+      "each",
+      "min"
+    ]
+  },
+  "union": {
+    "methods": [
+      {
+        "text": "basic usage",
+        "slug": "basic"
+      }
+    ],
+    "sharedAux": []
+  },
+  "discriminated-union": {
+    "methods": [
+      {
+        "text": "discriminatedUnion",
+        "slug": "discriminated-union"
+      }
+    ],
+    "sharedAux": []
+  },
+  "metadata-object": {
+    "methods": [
+      {
+        "text": "metadataObject",
+        "slug": "metadata-object"
+      },
+      {
+        "text": "coercion + pipeline",
+        "slug": "coercion-pipeline"
+      }
+    ],
+    "sharedAux": [
+      "pipeline"
+    ]
+  },
+  "metadata": {
+    "methods": [
+      {
+        "text": "string",
+        "slug": "string"
+      }
+    ],
+    "sharedAux": []
+  },
+  "block-list": {
+    "methods": [
+      {
+        "text": "list",
+        "slug": "list"
+      },
+      {
+        "text": "min",
+        "slug": "min"
+      },
+      {
+        "text": "ordered child sequence",
+        "slug": "ordered-child-sequence"
+      }
+    ],
+    "sharedAux": [
+      "min",
+      "sequence"
+    ]
+  },
+  "string": {
+    "methods": [
+      {
+        "text": "string",
+        "slug": "string"
+      },
+      {
+        "text": "trim",
+        "slug": "trim"
+      },
+      {
+        "text": "min",
+        "slug": "min"
+      },
+      {
+        "text": "max",
+        "slug": "max"
+      },
+      {
+        "text": "startsWith",
+        "slug": "starts-with"
+      },
+      {
+        "text": "endsWith",
+        "slug": "ends-with"
+      },
+      {
+        "text": "includes",
+        "slug": "includes"
+      },
+      {
+        "text": "startsWith + endsWith",
+        "slug": "starts-with-ends-with"
+      },
+      {
+        "text": "max + includes",
+        "slug": "max-includes"
+      }
+    ],
+    "sharedAux": [
+      "endswith",
+      "includes",
+      "max",
+      "min",
+      "startswith",
+      "trim"
+    ]
+  },
+  "email": {
+    "methods": [
+      {
+        "text": "email",
+        "slug": "email"
+      },
+      {
+        "text": "min",
+        "slug": "min"
+      },
+      {
+        "text": "includes",
+        "slug": "includes"
+      }
+    ],
+    "sharedAux": [
+      "includes",
+      "min"
+    ]
+  },
+  "number": {
+    "methods": [
+      {
+        "text": "number",
+        "slug": "number"
+      },
+      {
+        "text": "int",
+        "slug": "int"
+      },
+      {
+        "text": "min + max",
+        "slug": "min-max"
+      }
+    ],
+    "sharedAux": [
+      "int",
+      "max",
+      "min"
+    ]
+  },
+  "boolean": {
+    "methods": [
+      {
+        "text": "boolean",
+        "slug": "boolean"
+      }
+    ],
+    "sharedAux": [
+      "pipeline"
+    ]
+  },
+  "url": {
+    "methods": [
+      {
+        "text": "url",
+        "slug": "url"
+      },
+      {
+        "text": "startsWith",
+        "slug": "starts-with"
+      },
+      {
+        "text": "includes",
+        "slug": "includes"
+      }
+    ],
+    "sharedAux": [
+      "includes",
+      "startswith"
+    ]
+  },
+  "date": {
+    "methods": [
+      {
+        "text": "date",
+        "slug": "date"
+      },
+      {
+        "text": "as: 'string'",
+        "slug": "as-string"
+      }
+    ],
+    "sharedAux": [
+      "transform"
+    ]
+  },
+  "literal": {
+    "methods": [
+      {
+        "text": "literal",
+        "slug": "literal"
+      }
+    ],
+    "sharedAux": []
+  },
+  "enum": {
+    "methods": [
+      {
+        "text": "enum",
+        "slug": "enum"
+      }
+    ],
+    "sharedAux": []
+  },
+  "array": {
+    "methods": [
+      {
+        "text": "array",
+        "slug": "array"
+      },
+      {
+        "text": "min max",
+        "slug": "min-max"
+      },
+      {
+        "text": "length nonempty",
+        "slug": "length-nonempty"
+      }
+    ],
+    "sharedAux": [
+      "length",
+      "max",
+      "min",
+      "nonempty"
+    ]
+  },
+  "tuple": {
+    "methods": [
+      {
+        "text": "tuple",
+        "slug": "tuple"
+      }
+    ],
+    "sharedAux": []
+  },
+  "record": {
+    "methods": [
+      {
+        "text": "record",
+        "slug": "record"
+      },
+      {
+        "text": "key/value overload",
+        "slug": "key-value"
+      }
+    ],
+    "sharedAux": []
+  },
+  "list": {
+    "methods": [
+      {
+        "text": "list",
+        "slug": "list"
+      },
+      {
+        "text": "min",
+        "slug": "min"
+      }
+    ],
+    "sharedAux": [
+      "min"
+    ]
+  },
+  "preprocess": {
+    "methods": [
+      {
+        "text": "preprocess",
+        "slug": "preprocess"
+      }
+    ],
+    "sharedAux": []
+  },
+  "coerce": {
+    "methods": [
+      {
+        "text": "string",
+        "slug": "string"
+      },
+      {
+        "text": "number",
+        "slug": "number"
+      },
+      {
+        "text": "boolean",
+        "slug": "boolean"
+      },
+      {
+        "text": "date",
+        "slug": "date"
+      }
+    ],
+    "sharedAux": []
+  },
+  "wrappers": {
+    "methods": [
+      {
+        "text": "default",
+        "slug": "default"
+      },
+      {
+        "text": "transform",
+        "slug": "transform"
+      },
+      {
+        "text": "pipeline",
+        "slug": "pipeline"
+      }
+    ],
+    "sharedAux": [
+      "default",
+      "nullable",
+      "optional",
+      "pipeline",
+      "transform"
+    ]
+  },
+  "error-map": {
+    "methods": [
+      {
+        "text": "set/get errorMap",
+        "slug": "set-get-error-map"
+      },
+      {
+        "text": "schema.errorMap",
+        "slug": "schema-error-map"
+      },
+      {
+        "text": "format",
+        "slug": "format"
+      }
+    ],
+    "sharedAux": []
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "markschema",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types",
+    "docs:dev": "npm run --workspace @markschema/docs dev",
+    "docs:build": "npm run --workspace @markschema/docs build",
+    "docs:preview": "npm run --workspace @markschema/docs preview",
+    "docs:check": "npm run --workspace @markschema/docs check-quality"
+  },
+  "devDependencies": {
+    "prettier": "^3.7.4",
+    "turbo": "^2.8.17",
+    "typescript": "5.9.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.9.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
