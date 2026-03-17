@@ -90,7 +90,7 @@ const schema = md.document({
   }),
   events: md
     .section('2. INCIDENT EVENTS')
-    .headingLevel(3)
+    .subsections(3)
     .sequence(['Detection', 'Mitigation'])
     .each(eventSchema)
     .min(2),
