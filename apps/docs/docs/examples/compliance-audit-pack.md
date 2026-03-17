@@ -57,7 +57,7 @@ const controlSchema = md.object({
 
 const schema = md
   .document({
-    frontmatter: md.section('0. META').fields({}).min(1),
+    meta: md.section('0. META').fields({}).min(1),
       refs: md.section('3. REFERENCES').referenceLinks(md.object({ text: md.string().min(2), identifier: md.string(), url: md.url(), title: md.string().optional() })).min(1),
     }),
   })
@@ -123,7 +123,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

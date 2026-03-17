@@ -7,7 +7,7 @@
 - `md.number()`
 - `md.boolean()`
 - `md.url()`
-- `md.date({ as: 'date' | 'string' })`
+- `md.date({ input?: 'iso' | 'date-only', output?: 'date' | 'iso' | 'date-only' })`
 - `md.literal(value)`
 - `md.enum([...])`
 - `md.array(schema)`
@@ -97,7 +97,6 @@ const schema = PrimitiveSchema
 - Wrong: expecting `default()` to fix invalid values
 
 Common error: `default()` only applies to `undefined`.
-
 
 
 

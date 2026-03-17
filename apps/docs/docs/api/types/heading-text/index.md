@@ -4,7 +4,7 @@
 
 ## Overview
 
-Use `md.headingText()` inside `section().headingLevel(...).each(...)` flows.
+Use `md.headingText()` inside `section().subsections(...).each(...)` flows.
 
 ## Method Index
 
@@ -18,7 +18,6 @@ Use `md.headingText()` inside `section().headingLevel(...).each(...)` flows.
 
 - [min](/api/aux/min)
 - [regex](/api/aux/regex)
-
 
 
 

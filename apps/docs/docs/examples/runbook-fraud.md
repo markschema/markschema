@@ -4,7 +4,7 @@ This scenario validates a real multi-section runbook with ordered scenes, mixed 
 
 ## Why this schema is production-oriented
 
-- `section(...).headingLevel(...).sequence(...).each(...)` guarantees timeline order and prevents silent section drift.
+- `section(...).subsections(...).sequence(...).each(...)` guarantees timeline order and prevents silent section drift.
 - `match.label/labels` keeps operational labels typed and auditable.
 - `blockOrder(...)` protects advanced sections from structural regressions when writers change markdown layout.
 - `pipeline(...)` converts raw text values into bounded numeric constraints before business logic uses them.
@@ -104,7 +104,7 @@ const schema = md.document({
   }),
   timeline: md
     .section('5. EXECUTION TIMELINE')
-    .headingLevel(3)
+    .subsections(3)
     .sequence([
       '[00:00-02:00] - Fraud Spike and Incident Intake',
       '[02:00-04:00] - Signal Ingestion and Feature Pipeline',
@@ -175,7 +175,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

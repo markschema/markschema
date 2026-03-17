@@ -2,17 +2,17 @@
 
 Type: `section`
 
-Signature: `section().headingLevel(depth).sequence([...]).each(...).min(...)`
+Signature: `section().subsections(depth).sequence([...]).each(...).min(...)`
 
 ## What It Is
 
-`section().headingLevel(depth).sequence([...]).each(...).min(...)` is used here as a contract-first parser powered by document-level structure checks, label-based matching, and ordered section validation for `each` scenarios. With `object()`, `headingText()`, `label()`, and `value()` in the schema, 1 h1 heading, 1 h2 section, and 2 h3 subsections is converted into top-level keys `scenes` without manual `each` post-processing. Error cases report issue codes like `missing_section`, making operational diagnostics for `each` flows consistent across local runs and CI.
+`section().subsections(depth).sequence([...]).each(...).min(...)` is used here as a contract-first parser powered by document-level structure checks, label-based matching, and ordered section validation for `each` scenarios. With `object()`, `headingText()`, `label()`, and `value()` in the schema, 1 h1 heading, 1 h2 section, and 2 h3 subsections is converted into top-level keys `scenes` without manual `each` post-processing. Error cases report issue codes like `missing_section`, making operational diagnostics for `each` flows consistent across local runs and CI.
 
 ## When to Use
 
-This method is a strong fit for section-scoped extraction where headings anchor each data slice where deterministic `each` parsing matters more than free-form flexibility. Do not default to it for free-form notes with unstable section names around `each`; the main cost is ordering constraints that reduce flexibility but improve consistency. For best results, compose `section().headingLevel(depth).sequence([...]).each(...).min(...)` with `object()`, `headingText()`, `label()`, and `value()` so `each` schema intent stays readable and output remains predictable.
+This method is a strong fit for section-scoped extraction where headings anchor each data slice where deterministic `each` parsing matters more than free-form flexibility. Do not default to it for free-form notes with unstable section names around `each`; the main cost is ordering constraints that reduce flexibility but improve consistency. For best results, compose `section().subsections(depth).sequence([...]).each(...).min(...)` with `object()`, `headingText()`, `label()`, and `value()` so `each` schema intent stays readable and output remains predictable.
 
-### `section().headingLevel(depth).sequence([...]).each(...).min(...)`
+### `section().subsections(depth).sequence([...]).each(...).min(...)`
 
 ### Input Markdown
 
@@ -41,7 +41,7 @@ const scene = md.object({
 const schema = md.document({
   scenes: md
     .section('5. TIMELINE')
-    .headingLevel(3)
+    .subsections(3)
     .sequence(['[00:00-02:00] - Intake', '[02:00-04:00] - Containment'])
     .each(scene)
     .min(2),
@@ -97,7 +97,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

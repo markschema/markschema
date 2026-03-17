@@ -6,7 +6,7 @@
 - `paragraph()`
 - `paragraphs([schemaA, schemaB, ...])`
 - `list(itemSchema)`
-- `headingLevel(depth).each(schema)`
+- `subsections(depth).each(schema)`
 - `blockOrder(order, options)`
 - advanced blocks: `tables`, `blockquotes`, `code`, `links`, `images`, `footnotes`, etc.
 
@@ -117,7 +117,6 @@ const schema = SectionSchema
 
 - Right: use `fields(...)` for `Key: Value` sections.
 - Wrong: use `list(...)` when you need key-level validation.
-
 
 
 

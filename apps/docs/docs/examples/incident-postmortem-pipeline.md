@@ -57,7 +57,7 @@ import { md } from '@markschema/mdshape'
 
 const phases = md
   .section('2. PHASES')
-  .headingLevel(3)
+  .subsections(3)
   .sequence(['Detection', 'Mitigation'])
   .each(
     md.object({
@@ -149,7 +149,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

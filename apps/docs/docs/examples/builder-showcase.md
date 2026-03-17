@@ -33,7 +33,7 @@ const schema = md.document({
   meta: md.section('1. META').fields({ Service: md.string() }),
   events: md
     .section('3. EVENTS')
-    .headingLevel(3)
+    .subsections(3)
     .each(
       md.object({
         title: md.headingText(),
@@ -89,7 +89,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

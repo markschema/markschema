@@ -36,7 +36,7 @@ const sceneSchema = md.object({
 const schema = md.document({
   scenes: md
     .section('5. EXECUTION TIMELINE')
-    .headingLevel(3)
+    .subsections(3)
     .sequence(['[00:00-02:00] - Intake', '[02:00-04:00] - Containment'])
     .each(sceneSchema)
     .min(2),
@@ -120,7 +120,7 @@ import { md } from '@markschema/mdshape'
 const schema = md.document({
   tools: md
     .section('6. TOOLS AND ARTIFACTS')
-    .headingLevel(3)
+    .subsections(3)
     .sequence(['Operational Tools', 'Frameworks and Templates'])
     .each(
       md.object({
@@ -291,7 +291,7 @@ import { md } from '@markschema/mdshape'
 const schema = md.document({
   steps: md
     .section('5. DEPLOYMENT WINDOW')
-    .headingLevel(3)
+    .subsections(3)
     .sequence([/^\[\d{2}:\d{2}-\d{2}:\d{2}\] - .+$/, /^\[\d{2}:\d{2}-\d{2}:\d{2}\] - .+$/])
     .each(
       md.object({
@@ -352,7 +352,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

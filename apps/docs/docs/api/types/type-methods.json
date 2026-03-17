@@ -170,10 +170,6 @@
       {
         "text": "subsections",
         "slug": "subsections"
-      },
-      {
-        "text": "children",
-        "slug": "children"
       }
     ],
     "sharedAux": [
@@ -445,10 +441,6 @@
       {
         "text": "date",
         "slug": "date"
-      },
-      {
-        "text": "as: 'string'",
-        "slug": "as-string"
       }
     ],
     "sharedAux": [

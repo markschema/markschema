@@ -12,6 +12,11 @@ Signature: `md.preprocess(fn, schema)`
 
 Use `md.preprocess(fn, schema)` when you need typed markdown parsing with deterministic contracts for `preprocess` workflows and want parsing behavior that remains enforceable in review and CI. Avoid it for exploratory drafts that intentionally avoid strict validation in `preprocess` documents, because it introduces key-level strictness that improves typing but rejects ad-hoc variations. It pairs well with `preprocess()`, `boolean()`, `document()`, and `section()` to keep `preprocess` extraction boundaries explicit while preserving typed output for downstream code.
 
+### `md.preprocess(fn, schema)`
+
+### Input Markdown
+
+```md
 ## 1. META
 
 - Enabled: 1
@@ -215,7 +220,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

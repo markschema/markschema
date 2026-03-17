@@ -15,7 +15,7 @@
 ```ts
 import { md } from '@markschema/mdshape'
 
-const schema = md.section('3. EVENTS').headingLevel(3).each(
+const schema = md.section('3. EVENTS').subsections(3).each(
   md.object({
     classification: md.match.label('Classification').value(md.enum(['TIME_BOUND', 'TIMELESS', 'HYBRID'])),
     values: md.match.labels(['NARRATION', 'VISUAL']).values(md.string().min(10)),
@@ -81,7 +81,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

@@ -46,7 +46,7 @@ const controlSchema = md.object({
 })
 
 const schema = md.document({
-  frontmatter: md.section('0. META').fields({
+  meta: md.section('0. META').fields({
     title: md.string().min(5),
     version: md.coerce.number().pipeline(md.number().int().min(1)),
   }),
@@ -59,7 +59,7 @@ const schema = md.document({
       SLA: md.coerce.number().pipeline(md.number().int().min(1)),
     })
     .sequence(['Owner', 'Channel', 'SLA']),
-  controls: md.section('2. CONTROLS').headingLevel(3).each(controlSchema).min(2),
+  controls: md.section('2. CONTROLS').subsections(3).each(controlSchema).min(2),
 })
 ```
 
@@ -122,7 +122,5 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
 
 

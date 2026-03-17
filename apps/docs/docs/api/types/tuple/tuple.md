@@ -6,17 +6,24 @@ Signature: `md.tuple([literal, number])`
 
 ## What It Is
 
-`md.tuple([literal, number])` is used here as a contract-first parser powered by document-level structure checks, explicit section targeting, and typed field extraction for `tuple` scenarios. With `document()`, `heading()`, `section()`, and `fields()` in the schema, 1 h1 heading, 1 h2 section, and list content is converted into top-level keys `title` and `frontmatter` without manual `tuple` post-processing. Error cases report issue codes like `invalid_type`, making operational diagnostics for `tuple` flows consistent across local runs and CI.
+`md.tuple([literal, number])` is used here as a contract-first parser powered by document-level structure checks, frontmatter extraction, and typed positional validation for `tuple` scenarios. With `document()`, `heading()`, `metadataObject()`, and `tuple()` in the schema, 1 h1 heading and frontmatter content are converted into top-level keys `title` and `frontmatter` without manual `tuple` post-processing. Error cases report issue codes like `invalid_type`, making operational diagnostics for `tuple` flows consistent across local runs and CI.
 
 ## When to Use
 
-This method is a strong fit for typed markdown parsing with deterministic contracts where deterministic `tuple` parsing matters more than free-form flexibility. Do not default to it for exploratory drafts that intentionally avoid strict validation around `tuple`; the main cost is key-level strictness that improves typing but rejects ad-hoc variations. For best results, compose `md.tuple([literal, number])` with `document()`, `heading()`, `section()`, and `fields()` so `tuple` schema intent stays readable and output remains predictable.
+This method is a strong fit for typed markdown parsing with deterministic contracts where deterministic `tuple` parsing matters more than free-form flexibility. Do not default to it for exploratory drafts that intentionally avoid strict validation around `tuple`; the main cost is key-level strictness that improves typing but rejects ad-hoc variations. For best results, compose `md.tuple([literal, number])` with `document()`, `heading()`, `metadataObject()`, and `tuple()` so `tuple` schema intent stays readable and output remains predictable.
 
-## 0. META
+### `md.tuple([literal, number])`
 
+### Input Markdown
+
+```md
+---
 window:
   - critical
   - 5
+---
+
+# RUNBOOK: Tuple Window
 ```
 
 ### Schema
@@ -26,7 +33,7 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.section('0. META').fields(
+  frontmatter: md.metadataObject(
     md.object({
       window: md.tuple([md.literal('critical'), md.number().int().min(1)]),
     }),
@@ -81,14 +88,14 @@ Failure trigger: The input violates one or more constraints declared in the sche
 ### Input Markdown
 
 ```md
-# RUNBOOK: Tuple Mixed
-
-## 0. META
-
+---
 window:
   - critical
   - 5
   - true
+---
+
+# RUNBOOK: Tuple Mixed
 ```
 
 ### Schema
@@ -98,7 +105,7 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.section('0. META').fields(
+  frontmatter: md.metadataObject(
     md.object({
       window: md.tuple([md.literal('critical'), md.number().int().min(1), md.boolean()]),
     }),
@@ -148,13 +155,13 @@ Failure trigger: The input violates one or more constraints declared in the sche
 ### Input Markdown
 
 ```md
-# RUNBOOK: Tuple Pipe
-
-## 0. META
-
+---
 window:
   - critical
   - "5"
+---
+
+# RUNBOOK: Tuple Pipe
 ```
 
 ### Schema
@@ -164,7 +171,7 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.section('0. META').fields(
+  frontmatter: md.metadataObject(
     md.object({
       window: md.tuple([
         md.literal('critical'),
@@ -210,7 +217,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

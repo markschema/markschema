@@ -34,7 +34,7 @@ import { md } from '@markschema/mdshape'
 const schema = md.document({
   events: md
     .section('3. EVENTS')
-    .headingLevel(3)
+    .subsections(3)
     .each(
       md.object({
         title: md.headingText(),
@@ -94,7 +94,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

@@ -12,6 +12,9 @@ Signature: `md.boolean()`
 
 This method is a strong fit for typed markdown parsing with deterministic contracts where deterministic `boolean` parsing matters more than free-form flexibility. Do not default to it for exploratory drafts that intentionally avoid strict validation around `boolean`; the main cost is key-level strictness that improves typing but rejects ad-hoc variations. For best results, compose `md.boolean()` with `document()`, `section()`, `fields()`, and `boolean()` so `boolean` schema intent stays readable and output remains predictable.
 
+### Input Markdown
+
+```md
 ## 1. META
 
 - Enabled: true
@@ -138,7 +141,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

@@ -148,7 +148,7 @@ const intent = md.discriminatedUnion('type', [
   md.object({ type: md.literal('VISUAL'), text: md.string().min(5) }),
 ])
 
-const schema = md.section('3. EVENTS').headingLevel(3).each(
+const schema = md.section('3. EVENTS').subsections(3).each(
   md.object({
     intents: md.match
       .labels(['NARRATION', 'VISUAL'])
@@ -209,7 +209,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

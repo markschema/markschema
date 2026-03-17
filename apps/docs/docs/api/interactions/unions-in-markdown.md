@@ -14,7 +14,7 @@
 ```ts
 import { md } from '@markschema/mdshape'
 
-const schema = md.section('3. EVENTS').headingLevel(3).each(
+const schema = md.section('3. EVENTS').subsections(3).each(
   md.object({
     status: md.match.label('STATUS').value(
       md.union([
@@ -76,7 +76,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

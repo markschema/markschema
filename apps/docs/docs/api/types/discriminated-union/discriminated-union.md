@@ -39,7 +39,7 @@ const intent = md.discriminatedUnion('type', [
 const schema = md.document({
   events: md
     .section('3. EVENTS')
-    .headingLevel(3)
+    .subsections(3)
     .each(
       md.object({
         title: md.headingText(),

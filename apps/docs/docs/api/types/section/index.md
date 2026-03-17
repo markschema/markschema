@@ -39,7 +39,6 @@ For full `blockOrder` behavior in real flows, see [blockOrder options](/api/inte
 - [blockOrder](/api/types/section/block-order)
 - [each](/api/types/section/each)
 - [subsections](/api/types/section/subsections)
-- [children](/api/types/section/children)
 
 ### Shared auxiliaries
 
@@ -47,7 +46,6 @@ For full `blockOrder` behavior in real flows, see [blockOrder options](/api/inte
 - [headers](/api/aux/headers)
 - [min](/api/aux/min)
 - [sequence](/api/aux/sequence)
-
 
 
 

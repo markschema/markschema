@@ -16,7 +16,7 @@ Note: legacy method routes with historical suffixes (for example `*-2` and `*-mi
 - [object](/api/types/object/)
 - [section](/api/types/section/)
   section aliases covered in page:
-  `subsections(depth)` and `children(depth)`
+  `subsections(depth)`
 - [heading](/api/types/heading/)
 - [headingText](/api/types/heading-text/)
 - [match](/api/types/match/)

@@ -6,11 +6,11 @@ Signature: `md.date()`
 
 ## What It Is
 
-`md.date()` parses markdown with document-level structure checks, explicit section targeting, and typed field extraction, so this page defines a strict `date` contract instead of permissive text scraping. The schema combines operators such as `document()`, `section()`, `fields()`, and `date()` to map 1 h1 heading, 1 h2 section, and list content into top-level keys `meta` for this `date` behavior. If parsing fails, the result carries issue codes like `missing_section`, giving the caller precise debugging context for `date` paths.
+`md.date()` parses strict ISO datetime input and returns a `Date` object by default. The schema combines operators such as `document()`, `section()`, `fields()`, and `date()` to map 1 h1 heading, 1 h2 section, and list content into top-level keys `meta` for this `date` behavior. If parsing fails, the result carries issue codes like `missing_section`, giving the caller precise debugging context for `date` paths.
 
 ## When to Use
 
-Use `md.date()` when you need typed markdown parsing with deterministic contracts for `date` workflows and want parsing behavior that remains enforceable in review and CI. Avoid it for exploratory drafts that intentionally avoid strict validation in `date` documents, because it introduces key-level strictness that improves typing but rejects ad-hoc variations. It pairs well with `document()`, `section()`, `fields()`, and `date()` to keep `date` extraction boundaries explicit while preserving typed output for downstream code.
+Use `md.date()` when your markdown field stores an ISO datetime and downstream code should receive a real `Date`. Avoid it when the source format is date-only text such as `2026-03-10`, because `md.date({ input: 'date-only' })` is a better fit for that contract. It pairs well with `document()`, `section()`, `fields()`, and `date()` to keep `date` extraction boundaries explicit while preserving typed output for downstream code.
 
 ### `md.date()`
 
@@ -32,6 +32,23 @@ const schema = md.document({
     StartAt: md.date(),
   }),
 })
+```
+
+### Output Behavior
+
+`md.date()` is equivalent to `md.date({ input: 'iso', output: 'date' })`.
+
+### Supported Combinations
+
+```ts
+md.date({ input: 'iso', output: 'date' })
+md.date({ input: 'iso', output: 'date-only' })
+md.date({ input: 'date-only', output: 'date' })
+md.date({ input: 'date-only' }) // returns YYYY-MM-DD string
+md.date({ input: 'timestamp', output: 'date' }) // timestamp -> Date
+md.date({ input: 'timestamp' }) // returns timestamp (ms)
+md.date() // equivalent to { input: 'iso', output: 'date' }
+md.date({ output: 'iso' }) // ISO input, ISO string output
 ```
 
 ### Result
@@ -76,10 +93,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
-
-
 
 
 

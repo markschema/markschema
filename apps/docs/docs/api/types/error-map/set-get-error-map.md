@@ -6,17 +6,19 @@ Signature: `setErrorMap(...) + getErrorMap()`
 
 ## What It Is
 
-`setErrorMap(...) + getErrorMap()` is used here as a contract-first parser powered by document-level structure checks, explicit section targeting, and typed field extraction for `set get error map` scenarios. With `document()`, `section()`, `fields()`, and `email()` in the schema, 1 h1 heading, 1 h2 section, and list content is converted into top-level keys `owner` without manual `set get error map` post-processing. Error cases report issue codes like `invalid_email`, making operational diagnostics for `set get error map` flows consistent across local runs and CI.
+`setErrorMap(...) + getErrorMap()` configures and reads the global error message mapper used by all schemas in the process. This method pair is for central error-message policy and not for field extraction logic. Error cases keep the same issue codes, but messages can be rewritten globally.
 
 ## When to Use
 
-This method is a strong fit for typed markdown parsing with deterministic contracts where deterministic `set get error map` parsing matters more than free-form flexibility. Do not default to it for exploratory drafts that intentionally avoid strict validation around `set get error map`; the main cost is key-level strictness that improves typing but rejects ad-hoc variations. For best results, compose `setErrorMap(...) + getErrorMap()` with `document()`, `section()`, `fields()`, and `email()` so `set get error map` schema intent stays readable and output remains predictable.
+Use `setErrorMap(...) + getErrorMap()` when your app needs a single global error-message style across multiple schemas. Avoid it when you need per-schema message behavior only, because `schema.errorMap(...)` is more local and predictable. For best results, save the previous map with `getErrorMap()` and restore it after temporary overrides.
 
 ### `setErrorMap(...) + getErrorMap()`
 
 ### Input Markdown
 
 ```md
+# RUNBOOK: Owner Check
+
 ## 1. OWNER
 
 - Email: not-an-email
@@ -27,12 +29,18 @@ This method is a strong fit for typed markdown parsing with deterministic contra
 ```ts
 import { md, setErrorMap, getErrorMap } from '@markschema/mdshape'
 
+const markdown = `# RUNBOOK: Owner Check
+
+## 1. OWNER
+
+- Email: not-an-email
+`
+
+const previous = getErrorMap()
 setErrorMap((issue) => {
   if (issue.code === 'invalid_email') return 'Global map: invalid email'
   return undefined
 })
-
-const current = getErrorMap()
 
 const schema = md.document({
   owner: md.section('1. OWNER').fields({
@@ -41,6 +49,8 @@ const schema = md.document({
 })
 
 const result = schema.safeParse(markdown)
+
+setErrorMap(previous)
 ```
 
 ### Result
@@ -75,7 +85,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 

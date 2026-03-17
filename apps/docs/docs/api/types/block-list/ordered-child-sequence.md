@@ -37,7 +37,7 @@ import { md } from '@markschema/mdshape'
 const schema = md.document({
   tools: md
     .section('6. TOOLS')
-    .headingLevel(3)
+    .subsections(3)
     .sequence(['Operational Tools', 'Frameworks'])
     .each(
       md.object({
@@ -103,7 +103,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
 
 
 
