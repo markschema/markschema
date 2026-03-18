@@ -103,6 +103,55 @@ const SUPPORT_URL =
   process.env.NEXT_PUBLIC_MDSHAPE_SUPPORT_URL ??
   'mailto:support@zayra.app?subject=Support%20mdshape'
 
+type PlaygroundUrlSeed = {
+  title?: string
+  markdown?: string
+  schemaCode?: string
+  rightPaneView?: 'preview' | 'schema'
+  autoValidate?: boolean
+}
+
+const parseBooleanQueryValue = (value: string | null): boolean | undefined => {
+  if (!value) return undefined
+  if (value === '1' || value.toLowerCase() === 'true') return true
+  if (value === '0' || value.toLowerCase() === 'false') return false
+  return undefined
+}
+
+const decodeBase64UrlUtf8 = (input: string): string | undefined => {
+  try {
+    const normalized = input.replace(/-/g, '+').replace(/_/g, '/')
+    const padded = normalized + '='.repeat((4 - (normalized.length % 4)) % 4)
+    const binary = atob(padded)
+    const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0))
+    return new TextDecoder().decode(bytes)
+  } catch {
+    return undefined
+  }
+}
+
+const readPlaygroundUrlSeed = (search: string): PlaygroundUrlSeed | null => {
+  const params = new URLSearchParams(search)
+  const markdown = params.get('markdown') ?? decodeBase64UrlUtf8(params.get('markdown64') ?? '')
+  const schemaCode = params.get('schema') ?? decodeBase64UrlUtf8(params.get('schema64') ?? '')
+  const title = params.get('title') ?? undefined
+  const viewParam = params.get('view')
+  const rightPaneView = viewParam === 'preview' || viewParam === 'schema' ? viewParam : undefined
+  const autoValidate = parseBooleanQueryValue(params.get('autoValidate'))
+
+  if (!markdown && !schemaCode && !title && !rightPaneView && autoValidate === undefined) {
+    return null
+  }
+
+  return {
+    title: title?.trim() ? title.trim() : undefined,
+    markdown: markdown ?? undefined,
+    schemaCode: schemaCode ?? undefined,
+    rightPaneView,
+    autoValidate,
+  }
+}
+
 function normalizeParseResult(rawResult: unknown, markdown: string): PlaygroundResult {
   if (!rawResult || typeof rawResult !== 'object' || typeof (rawResult as any).success !== 'boolean') {
     return {
@@ -197,7 +246,7 @@ export function PlaygroundClient() {
   const [schemaCode, setSchemaCode] = useState(DEFAULT_SCHEMA)
   const [autoValidate, setAutoValidate] = useState(true)
   const [wordWrap, setWordWrap] = useState(true)
-  const [scrollSync, setScrollSync] = useState(false)
+  const [scrollSync, setScrollSync] = useState(true)
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle')
   const [selectedText, setSelectedText] = useState('')
   const [result, setResult] = useState<PlaygroundResult | null>(null)
@@ -216,6 +265,7 @@ export function PlaygroundClient() {
   const scrollSyncEnabledRef = useRef(scrollSync)
   const syncingFromEditorRef = useRef(false)
   const syncingFromPreviewRef = useRef(false)
+  const seededFromUrlRef = useRef(false)
 
   const docKey = useMemo(() => getDocumentStorageKey(title), [title])
   const editorThemeName = theme === 'dark' ? 'mdshape-linear-dark' : 'mdshape-linear-light'
@@ -253,6 +303,18 @@ export function PlaygroundClient() {
   }, [theme])
 
   useEffect(() => {
+    const seed = readPlaygroundUrlSeed(window.location.search)
+    if (!seed) return
+
+    seededFromUrlRef.current = true
+    if (seed.title !== undefined) setTitle(seed.title)
+    if (seed.markdown !== undefined) setMarkdown(seed.markdown)
+    if (seed.schemaCode !== undefined) setSchemaCode(seed.schemaCode)
+    if (seed.rightPaneView !== undefined) setRightPaneView(seed.rightPaneView)
+    if (seed.autoValidate !== undefined) setAutoValidate(seed.autoValidate)
+  }, [])
+
+  useEffect(() => {
     const rawPrefs = localStorage.getItem(getPrefsStorageKey())
     if (!rawPrefs) {
       setPrefsLoaded(true)
@@ -278,7 +340,6 @@ export function PlaygroundClient() {
       }
       if (typeof parsed.wordWrap === 'boolean') setWordWrap(parsed.wordWrap)
       if (typeof parsed.autoValidate === 'boolean') setAutoValidate(parsed.autoValidate)
-      if (typeof parsed.scrollSync === 'boolean') setScrollSync(parsed.scrollSync)
     } catch {
       // keep defaults
     } finally {
@@ -351,6 +412,7 @@ export function PlaygroundClient() {
   }, [docKey, markdown, schemaCode, title])
 
   useEffect(() => {
+    if (seededFromUrlRef.current) return
     const draft = localStorage.getItem(docKey)
     if (!draft) return
 
