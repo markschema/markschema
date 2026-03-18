@@ -17,13 +17,12 @@ Use `md.array(itemSchema)` when you need typed markdown parsing with determinist
 ### Input Markdown
 
 ```md
----
-scores:
-  - 4
-  - 7
----
-
 # RUNBOOK: Array Base
+
+## 2. SCORES
+
+- 4
+- 7
 ```
 
 ### Schema
@@ -33,11 +32,10 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      scores: md.array(md.number().int().min(0)),
-    }),
-  ),
+  scores: md
+    .section('2. SCORES')
+    .list(md.coerce.number().pipeline(md.number().int().min(0)))
+    .pipeline(md.array(md.number().int().min(0))),
 })
 ```
 
@@ -50,12 +48,10 @@ const schema = md.document({
   "success": true,
   "data": {
     "title": "RUNBOOK: Array Base",
-    "frontmatter": {
-      "scores": [
-        4,
-        7
-      ]
-    }
+    "scores": [
+      4,
+      7
+    ]
   }
 }
 ```
@@ -70,18 +66,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_type"
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
+        "path": [
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
 
 
 

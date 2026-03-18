@@ -75,17 +75,15 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "list_too_small",
-        "message": "List must contain at least 2 item(s)",
+        "code": "missing_section",
+        "message": "Missing section \"3. EVENTS\"",
         "path": [
-          "events",
-          0,
-          "facts"
+          "events"
         ],
-        "line": 5,
+        "line": 1,
         "position": {
           "start": {
-            "line": 5,
+            "line": 1,
             "column": 1
           }
         }
@@ -94,10 +92,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
-
-
 
 
 

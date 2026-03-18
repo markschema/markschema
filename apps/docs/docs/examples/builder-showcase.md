@@ -16,11 +16,8 @@ This page covers all major builders in one compact document.
 ### Step A
 
 **Classification:** TIMELESS
-**STATUS:** ACTIVE
-**ENTRY:** Initial signal check passed.
 
-**NARRATION:** Analyst reviewed risk signals.
-**VISUAL:** Dashboard snapshot.
+**STATUS:** ACTIVE
 ```
 
 ### Schema
@@ -78,18 +75,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "missing_labeled_value",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "events",
-          0,
-          "status"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
 
 
 

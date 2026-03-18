@@ -19,7 +19,7 @@ Apply `md.string().max(length)` when your document flow requires typed markdown 
 ```md
 ## 1. META
 
-- Team: Risk Platform Core
+- Team: Risk Team
 ```
 
 ### Schema
@@ -59,25 +59,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "value_too_big",
+        "code": "missing_section",
+        "message": "Missing section \"1. META\"",
         "path": [
-          "meta",
-          "Team"
-        ]
+          "meta"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
-
 
 
 

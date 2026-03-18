@@ -5,6 +5,8 @@
 ### Input Markdown
 
 ```md
+## 3. EVENTS
+
 ### [00:00-01:00] - Introduction
 
 **NARRATION:**
@@ -24,10 +26,19 @@ const intentSchema = md.discriminatedUnion('type', [
   md.object({ type: md.literal('VISUAL'), text: md.string().min(10) }),
 ])
 
-const MatchSchema = md.match
-  .labels(['NARRATION', 'VISUAL'])
-  .entries({ nameKey: 'type', contentKey: 'text' })
-  .each(intentSchema)
+const schema = md.document({
+  intents: md
+    .section('3. EVENTS')
+    .subsections(3)
+    .each(
+      md.object({
+        intents: md.match
+          .labels(['NARRATION', 'VISUAL'])
+          .entries({ nameKey: 'type', contentKey: 'text' })
+          .each(intentSchema),
+      }),
+    ),
+})
 ```
 
 ### Result
@@ -37,16 +48,22 @@ const MatchSchema = md.match
 ```json
 {
   "success": true,
-  "data": [
-    {
-      "type": "NARRATION",
-      "text": "Lesson overview and expected outcomes."
-    },
-    {
-      "type": "VISUAL",
-      "text": "Timeline showing all lesson segments."
-    }
-  ]
+  "data": {
+    "intents": [
+      {
+        "intents": [
+          {
+            "type": "NARRATION",
+            "text": "Lesson overview and expected outcomes."
+          },
+          {
+            "type": "VISUAL",
+            "text": "Timeline showing all lesson segments."
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -58,11 +75,18 @@ const MatchSchema = md.match
   "error": {
     "issues": [
       {
-        "code": "string_too_short",
+        "code": "missing_section",
+        "message": "Missing section \"3. EVENTS\"",
         "path": [
-          0,
-          "text"
-        ]
+          "intents"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
@@ -75,8 +99,6 @@ const MatchSchema = md.match
 - Wrong: use `md.string()` for the discriminator and lose deterministic variant routing.
 
 Common error: mixing `labels([...]).values(...)` (simple values) with `entries(...).each(...)` (typed objects).
-
-
 
 
 

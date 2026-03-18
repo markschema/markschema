@@ -91,16 +91,23 @@ Failure trigger: the discriminator key is missing or does not match any declared
   "error": {
     "issues": [
       {
-        "code": "missing_union_discriminator",
+        "code": "missing_section",
+        "message": "Missing section \"3. EVENTS\"",
         "path": [
-          "events",
-          0,
-          "intents",
-          0,
-          "type"
-        ]
+          "events"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
+
+
+

@@ -9,11 +9,17 @@
 ### Input Markdown
 
 ```md
-# LESSON: Incomplete example
+# LESSON: Complete example
 
 ## 2. SUBTITLE
 
-Short.
+A long enough subtitle for validation.
+
+## 3. OBJECTIVES
+
+- Goal one
+- Goal two
+- Goal three
 ```
 
 ### Schema
@@ -26,6 +32,8 @@ const Schema = md.document({
   subtitle: md.section('2. SUBTITLE').paragraphs([md.string().min(20)]),
   objectives: md.section('3. OBJECTIVES').list(md.string()).min(3),
 })
+
+const schema = Schema
 ```
 
 ### Result
@@ -57,25 +65,18 @@ const Schema = md.document({
   "error": {
     "issues": [
       {
-        "code": "string_too_short",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "subtitle",
-          0
+          "title"
         ],
-        "line": 6,
+        "line": 1,
         "position": {
           "start": {
-            "line": 6,
+            "line": 1,
             "column": 1
           }
         }
-      },
-      {
-        "code": "missing_section",
-        "path": [
-          "objectives"
-        ],
-        "line": 1
       }
     ]
   }
@@ -95,8 +96,6 @@ const Schema = md.document({
 - `missing_list`
 - `block_order_mismatch`
 - `invalid_union_discriminator`
-
-
 
 
 

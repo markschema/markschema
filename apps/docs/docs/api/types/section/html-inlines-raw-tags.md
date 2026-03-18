@@ -62,8 +62,8 @@ Failure trigger: section exists but contains no inline HTML tags, so `htmlInline
   "error": {
     "issues": [
       {
-        "code": "missing_html_inline",
-        "message": "Section \"9. ADVANCED BLOCK\" must contain an inline HTML node",
+        "code": "missing_section",
+        "message": "Missing section \"9. ADVANCED BLOCK\"",
         "path": [
           "htmlInlines"
         ],
@@ -79,3 +79,6 @@ Failure trigger: section exists but contains no inline HTML tags, so `htmlInline
   }
 }
 ```
+
+
+

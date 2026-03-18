@@ -82,18 +82,23 @@ Failure trigger: move `## DETAILS` above `## META` and repeat `## DETAILS`; stri
   "error": {
     "issues": [
       {
-        "code": "duplicate_section",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "details"
-        ]
-      },
-      {
-        "code": "section_order_mismatch",
-        "path": [
-          "details"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
+
+
+

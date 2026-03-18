@@ -21,8 +21,8 @@ Choose `object.passthrough()` for composing reusable object contracts across rel
 
 ## 0. META
 
-service: fraud-api
-extra: kept
+- service: fraud-api
+- extra: kept
 ```
 
 ### Schema
@@ -32,7 +32,7 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  data: md.section('0. META').fields(md.object({ service: md.string().min(3) }).passthrough()),
+  data: md.section('0. META').fields({ service: md.string().min(3) }),
 })
 ```
 
@@ -46,8 +46,7 @@ const schema = md.document({
   "data": {
     "title": "RUNBOOK: Object Passthrough",
     "data": {
-      "service": "fraud-api",
-      "extra": "kept"
+      "service": "fraud-api"
     }
   }
 }
@@ -63,24 +62,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_type",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "data",
-          "service"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 
 

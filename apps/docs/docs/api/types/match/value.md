@@ -70,12 +70,10 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "missing_labeled_value",
-        "message": "Missing labeled value \"STATUS\" in section \"Detection\"",
+        "code": "missing_section",
+        "message": "Missing section \"3. EVENTS\"",
         "path": [
-          "events",
-          0,
-          "status"
+          "events"
         ],
         "line": 1,
         "position": {
@@ -89,11 +87,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
-
-
-
 
 
 

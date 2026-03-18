@@ -21,8 +21,8 @@ This method is a strong fit for composing reusable object contracts across relat
 
 ## 0. META
 
-service: fraud-api
-owner: risk-platform
+- service: fraud-api
+- owner: risk-platform
 ```
 
 ### Schema
@@ -37,7 +37,13 @@ const base = md.object({
 
 const schema = md.document({
   title: md.heading(1),
-  data: md.section('0. META').fields(base.pick(['service'])),
+  data: md
+    .section('0. META')
+    .fields({
+      service: md.string().min(3),
+      owner: md.string().min(3),
+    })
+    .pipeline(base.pick(['service'])),
 })
 ```
 
@@ -67,24 +73,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "string_too_short",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "data",
-          "service"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 
 

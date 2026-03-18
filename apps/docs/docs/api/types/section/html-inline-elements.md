@@ -77,8 +77,8 @@ Failure trigger: section exists but has no extractable inline HTML elements, so 
   "error": {
     "issues": [
       {
-        "code": "missing_html_inline_element",
-        "message": "Section \"9. ADVANCED BLOCK\" must contain an inline HTML element",
+        "code": "missing_section",
+        "message": "Missing section \"9. ADVANCED BLOCK\"",
         "path": [
           "elements"
         ],
@@ -94,3 +94,6 @@ Failure trigger: section exists but has no extractable inline HTML elements, so 
   }
 }
 ```
+
+
+

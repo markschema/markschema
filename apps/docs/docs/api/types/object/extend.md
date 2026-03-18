@@ -21,9 +21,9 @@ Apply `object.extend(shape)` when your document flow requires composing reusable
 
 ## 0. META
 
-service: fraud-api
-owner: risk-platform
-region: us-east-1
+- service: fraud-api
+- owner: risk-platform
+- region: us-east-1
 ```
 
 ### Schema
@@ -42,7 +42,14 @@ const extended = base.extend({
 
 const schema = md.document({
   title: md.heading(1),
-  data: md.section('0. META').fields(extended),
+  data: md
+    .section('0. META')
+    .fields({
+      service: md.string().min(3),
+      owner: md.string().min(3),
+      region: md.string().min(3),
+    })
+    .pipeline(extended),
 })
 ```
 
@@ -74,23 +81,23 @@ Failure trigger: remove `region` from `0. META`; the field added by `extend()` i
   "error": {
     "issues": [
       {
-        "code": "missing_field",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "data",
-          "region"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
 
 
 

@@ -17,13 +17,12 @@ Use `md.list(itemSchema)` when you need a semantic list alias but still want arr
 ### Input Markdown
 
 ```md
----
-labels:
-  - urgent
-  - incident
----
-
 # RUNBOOK: List Alias
+
+## 2. LABELS
+
+- urgent
+- incident
 ```
 
 ### Schema
@@ -33,11 +32,10 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      labels: md.list(md.string().min(3)),
-    }),
-  ),
+  labels: md
+    .section('2. LABELS')
+    .list(md.string().min(3))
+    .pipeline(md.list(md.string().min(3))),
 })
 ```
 
@@ -50,12 +48,10 @@ const schema = md.document({
   "success": true,
   "data": {
     "title": "RUNBOOK: List Alias",
-    "frontmatter": {
-      "labels": [
-        "urgent",
-        "incident"
-      ]
-    }
+    "labels": [
+      "urgent",
+      "incident"
+    ]
   }
 }
 ```
@@ -70,18 +66,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_type"
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
+        "path": [
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
 
 
 

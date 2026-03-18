@@ -71,8 +71,8 @@ Failure trigger: if the list contains sublevels (for example `1. Root` with nest
   "error": {
     "issues": [
       {
-        "code": "missing_ordered_list",
-        "message": "Section \"9. ADVANCED BLOCK\" must contain an ordered list",
+        "code": "missing_section",
+        "message": "Missing section \"9. ADVANCED BLOCK\"",
         "path": [
           "ordered"
         ],
@@ -88,16 +88,6 @@ Failure trigger: if the list contains sublevels (for example `1. Root` with nest
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-
 
 
 

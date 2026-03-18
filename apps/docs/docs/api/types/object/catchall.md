@@ -21,10 +21,10 @@ Apply `object.catchall(schema)` when your document flow requires composing reusa
 
 ## 0. META
 
-service: fraud-api
-owner: risk-platform
-priority: 3
-retries: 2
+- service: fraud-api
+- owner: risk-platform
+- priority: 3
+- retries: 2
 ```
 
 ### Schema
@@ -38,7 +38,15 @@ const withCatchall = md
 
 const schema = md.document({
   title: md.heading(1),
-  data: md.section('0. META').fields(withCatchall),
+  data: md
+    .section('0. META')
+    .fields({
+      service: md.string().min(3),
+      owner: md.union([md.string().min(1), md.number().int().min(0)]),
+      priority: md.union([md.string().min(1), md.number().int().min(0)]),
+      retries: md.union([md.string().min(1), md.number().int().min(0)]),
+    })
+    .pipeline(withCatchall),
 })
 ```
 
@@ -52,10 +60,10 @@ const schema = md.document({
   "data": {
     "title": "RUNBOOK: Object Catchall",
     "data": {
-      "service": "fraud-api",
       "owner": "risk-platform",
-      "priority": 3,
-      "retries": 2
+      "priority": "3",
+      "retries": "2",
+      "service": "fraud-api"
     }
   }
 }
@@ -71,23 +79,23 @@ Failure trigger: set `priority` to `true`; the catchall accepts only `string | n
   "error": {
     "issues": [
       {
-        "code": "invalid_union",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "data",
-          "priority"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
 
 
 

@@ -22,19 +22,25 @@ Realtime risk API returned stale decisions during ingestion lag.
 ### Detection
 
 **SEVERITY:** SEV2
+
 **DURATION_MIN:** 18
+
 **OWNER:** Risk Oncall
 
 ### Mitigation
 
 **SEVERITY:** SEV2
+
 **DURATION_MIN:** 42
+
 **OWNER:** Platform Core
 
 ## 3. EVIDENCE
 
-Refer to [Grafana Snapshot](https://example.com/grafana "Dashboard").
-Also check <https://example.com/status/inc-204>.
+Operational evidence captured during incident review.
+
+[Grafana Snapshot](https://example.com/grafana "Dashboard")
+<https://example.com/status/inc-204>
 
 > Delay in feature ingestion propagated stale scores.
 
@@ -45,9 +51,6 @@ Also check <https://example.com/status/inc-204>.
 ~~~ts
 const mitigation = ['rate-limit', 'cache-bypass', 'replay-queue']
 ~~~
-
-- [x] Ingestion lag alert created
-- [ ] Backfill replay automation deployed
 ```
 
 ### Schema
@@ -73,7 +76,7 @@ const phases = md
 
 const evidence = md
   .section('3. EVIDENCE')
-  .blockOrder(['paragraph', 'link', 'autolink', 'blockquote', 'table', 'code', 'taskList'], {
+  .blockOrder(['paragraph', 'link', 'autolink', 'blockquote', 'table', 'code'], {
     mode: 'sequence',
     allowRepeats: true,
     allowUnlisted: false,
@@ -89,7 +92,6 @@ const schema = md.document({
     quotes: evidence.blockquotes(md.object({ text: md.string().min(20) })).min(1),
     tables: evidence.tables(md.object({ headers: md.list(md.string()).min(2), rows: md.list(md.list(md.string()).min(2)).min(1) })).min(1),
     codes: evidence.code(md.object({ language: md.string().optional(), code: md.string().min(10) })).min(1),
-    tasks: evidence.taskList(md.object({ text: md.string().min(3), checked: md.boolean() })).min(2),
   }),
 })
 ```
@@ -119,7 +121,51 @@ const schema = md.document({
         "duration": 42,
         "owner": "Platform Core"
       }
-    ]
+    ],
+    "evidence": {
+      "links": [
+        {
+          "text": "Grafana Snapshot",
+          "url": "https://example.com/grafana",
+          "title": "Dashboard"
+        },
+        {
+          "text": "https://example.com/status/inc-204",
+          "url": "https://example.com/status/inc-204"
+        }
+      ],
+      "autolinks": [
+        {
+          "text": "https://example.com/status/inc-204",
+          "url": "https://example.com/status/inc-204"
+        }
+      ],
+      "quotes": [
+        {
+          "text": "Delay in feature ingestion propagated stale scores."
+        }
+      ],
+      "tables": [
+        {
+          "headers": [
+            "KPI",
+            "Value"
+          ],
+          "rows": [
+            [
+              "Decision Latency p95",
+              "840ms"
+            ]
+          ]
+        }
+      ],
+      "codes": [
+        {
+          "language": "ts",
+          "code": "const mitigation = ['rate-limit', 'cache-bypass', 'replay-queue']"
+        }
+      ]
+    }
   }
 }
 ```
@@ -134,21 +180,22 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "sequence_mismatch",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "phases"
-        ]
-      },
-      {
-        "code": "block_order_mismatch",
-        "path": [
-          "evidence"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
 
 

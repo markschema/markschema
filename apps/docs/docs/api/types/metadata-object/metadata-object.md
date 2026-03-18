@@ -68,11 +68,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_frontmatter",
-        "path": ["frontmatter"],
-        "line": 1
+        "code": "missing_frontmatter",
+        "message": "Missing YAML frontmatter block",
+        "path": [
+          "frontmatter"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
+
+
+

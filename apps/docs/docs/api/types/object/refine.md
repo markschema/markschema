@@ -80,11 +80,23 @@ Failure trigger: remove `owner` while keeping `priority`; the refine predicate f
   "error": {
     "issues": [
       {
-        "code": "refine_failed",
-        "message": "owner is required when priority is present",
-        "path": ["data", "owner"]
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
+        "path": [
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
+
+
+

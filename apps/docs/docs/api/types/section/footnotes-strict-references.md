@@ -67,11 +67,23 @@ Failure trigger: if markdown contains `[^1]` but only defines `[^a]: ...`, `enfo
   "error": {
     "issues": [
       {
-        "code": "missing_footnote_definition",
-        "message": "Missing footnote definition for reference \"[^1]\" in section \"9. ADVANCED BLOCK\"",
-        "path": ["footnotes"]
+        "code": "missing_section",
+        "message": "Missing section \"9. ADVANCED BLOCK\"",
+        "path": [
+          "footnotes"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
+
+
+

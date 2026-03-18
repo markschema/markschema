@@ -90,18 +90,15 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "label_order_mismatch",
-        "message": "Label \"STATUS\" is out of expected order",
+        "code": "missing_section",
+        "message": "Missing section \"3. EVENTS\"",
         "path": [
-          "events",
-          0,
-          "facts",
-          1
+          "events"
         ],
-        "line": 7,
+        "line": 1,
         "position": {
           "start": {
-            "line": 7,
+            "line": 1,
             "column": 1
           }
         }
@@ -110,10 +107,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
-
-
 
 
 

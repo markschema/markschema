@@ -17,14 +17,13 @@ Use `array.min()/array.max()` when you need typed markdown parsing with determin
 ### Input Markdown
 
 ```md
----
-scores:
-  - 4
-  - 7
-  - 9
----
-
 # RUNBOOK: Array Range
+
+## 2. SCORES
+
+- 4
+- 7
+- 9
 ```
 
 ### Schema
@@ -34,11 +33,10 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      scores: md.array(md.number()).min(2).max(4),
-    }),
-  ),
+  scores: md
+    .section('2. SCORES')
+    .list(md.coerce.number().pipeline(md.number().int().min(0)))
+    .pipeline(md.array(md.number().int().min(0)).min(2).max(4)),
 })
 ```
 
@@ -51,13 +49,11 @@ const schema = md.document({
   "success": true,
   "data": {
     "title": "RUNBOOK: Array Range",
-    "frontmatter": {
-      "scores": [
-        4,
-        7,
-        9
-      ]
-    }
+    "scores": [
+      4,
+      7,
+      9
+    ]
   }
 }
 ```
@@ -72,18 +68,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "list_too_small"
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
+        "path": [
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
 
 
 

@@ -9,8 +9,8 @@ This example combines `section.fields.sequence`, `union`, `coerce`, and strict o
 
 ## 0. META
 
-title: Risk Control Matrix
-version: 3
+- title: Risk Control Matrix
+- version: 3
 
 ## 1. GOVERNANCE
 
@@ -23,13 +23,17 @@ version: 3
 ### Velocity Guard
 
 **STATUS:** ACTIVE
+
 **THRESHOLD:** 0.85
+
 **ACTION:** BLOCK
 
 ### Device Reputation Guard
 
 **STATUS:** DRAFT
+
 **THRESHOLD:** 0.70
+
 **ACTION:** REVIEW
 ```
 
@@ -71,6 +75,10 @@ const schema = md.document({
 {
   "success": true,
   "data": {
+    "meta": {
+      "title": "Risk Control Matrix",
+      "version": 3
+    },
     "title": "GUIDE: Risk Control Matrix",
     "governance": {
       "Owner": "Platform Risk",
@@ -105,22 +113,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "field_order_mismatch",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "governance"
-        ]
-      },
-      {
-        "code": "invalid_enum_value",
-        "path": [
-          "controls",
-          1,
-          "action"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
+
 
 

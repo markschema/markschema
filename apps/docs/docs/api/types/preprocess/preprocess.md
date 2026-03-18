@@ -161,7 +161,7 @@ Failure trigger: The input violates one or more constraints declared in the sche
 ```md
 ## 1. META
 
-- Score: x
+- Score: 5
 ```
 
 ### Schema
@@ -213,27 +213,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "transform_failed",
-        "message": "Preprocess: score conversion failed"
+        "code": "missing_section",
+        "message": "Missing section \"1. META\"",
+        "path": [
+          "meta"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -21,7 +21,7 @@ Use `object.partial()` when you need composing reusable object contracts across 
 
 ## 0. META
 
-service: fraud-api
+- service: fraud-api
 ```
 
 ### Schema
@@ -36,7 +36,13 @@ const base = md.object({
 
 const schema = md.document({
   title: md.heading(1),
-  data: md.section('0. META').fields(base.partial()),
+  data: md
+    .section('0. META')
+    .fields({
+      service: md.string().min(3),
+      owner: md.string().min(3).optional(),
+    })
+    .pipeline(base.partial()),
 })
 ```
 
@@ -66,24 +72,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "string_too_short",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "data",
-          "service"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 
 

@@ -3,9 +3,12 @@
 ## Input Markdown
 
 ```md
+## 3. EVENTS
+
 ### Step A
 
 **STATUS:** ACTIVE
+
 **NARRATION:** Analyst handled escalation.
 ```
 
@@ -14,25 +17,27 @@
 ```ts
 import { md } from '@markschema/mdshape'
 
-const schema = md.section('3. EVENTS').subsections(3).each(
-  md.object({
-    status: md.match.label('STATUS').value(
-      md.union([
-        md.literal('ACTIVE'),
-        md.string().transform((v) => Number(v)).pipeline(md.number().min(0).max(10)),
-      ]),
-    ),
-    intents: md.match
-      .labels(['NARRATION', 'VISUAL'])
-      .entries({ nameKey: 'type', contentKey: 'text' })
-      .each(
-        md.discriminatedUnion('type', [
-          md.object({ type: md.literal('NARRATION'), text: md.string().min(10) }),
-          md.object({ type: md.literal('VISUAL'), text: md.string().min(10) }),
+const schema = md.document({
+  events: md.section('3. EVENTS').subsections(3).each(
+    md.object({
+      status: md.match.label('STATUS').value(
+        md.union([
+          md.literal('ACTIVE'),
+          md.string().transform((v) => Number(v)).pipeline(md.number().min(0).max(10)),
         ]),
       ),
-  }),
-)
+      intents: md.match
+        .labels(['NARRATION', 'VISUAL'])
+        .entries({ nameKey: 'type', contentKey: 'text' })
+        .each(
+          md.discriminatedUnion('type', [
+            md.object({ type: md.literal('NARRATION'), text: md.string().min(10) }),
+            md.object({ type: md.literal('VISUAL'), text: md.string().min(10) }),
+          ]),
+        ),
+    }),
+  ),
+})
 ```
 
 ### Result
@@ -42,17 +47,19 @@ const schema = md.section('3. EVENTS').subsections(3).each(
 ```json
 {
   "success": true,
-  "data": [
-    {
-      "status": "ACTIVE",
-      "intents": [
-        {
-          "type": "NARRATION",
-          "text": "Analyst handled escalation."
-        }
-      ]
-    }
-  ]
+  "data": {
+    "events": [
+      {
+        "status": "ACTIVE",
+        "intents": [
+          {
+            "type": "NARRATION",
+            "text": "Analyst handled escalation."
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -66,17 +73,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_union",
+        "code": "missing_section",
+        "message": "Missing section \"3. EVENTS\"",
         "path": [
-          0,
-          "status"
-        ]
+          "events"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
 
 
 

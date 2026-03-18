@@ -9,7 +9,7 @@ Use `safeParse` and `error.format(markdown)` to debug validation failures quickl
 
 ## 1. OWNER
 
-- Email: invalid-email
+- Email: alex@zayra.com
 ```
 
 ### Schema
@@ -55,15 +55,15 @@ if (!result.success) {
   "error": {
     "issues": [
       {
-        "code": "invalid_email",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "owner",
-          "Email"
+          "title"
         ],
-        "line": 5,
+        "line": 1,
         "position": {
           "start": {
-            "line": 5,
+            "line": 1,
             "column": 1
           }
         }
@@ -72,8 +72,6 @@ if (!result.success) {
   }
 }
 ```
-
-
 
 
 

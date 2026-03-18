@@ -17,13 +17,12 @@ Use `md.record(valueSchema)` when you need typed markdown parsing with determini
 ### Input Markdown
 
 ```md
----
-weights:
-  email: 3
-  sms: 4
----
-
 # RUNBOOK: Record Values
+
+## 2. WEIGHTS
+
+- email=3
+- sms=4
 ```
 
 ### Schema
@@ -31,13 +30,22 @@ weights:
 ```ts
 import { md } from '@markschema/mdshape'
 
+const pairList = md.section('2. WEIGHTS').list(md.string().min(3))
+
+const recordSchema = md.preprocess(
+  (entries) =>
+    Object.fromEntries(
+      (entries ?? []).map((entry) => {
+        const [key, value] = String(entry).split('=')
+        return [key, Number(value)]
+      }),
+    ),
+  md.record(md.number().int().min(1)),
+)
+
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      weights: md.record(md.number().int().min(1)),
-    }),
-  ),
+  weights: pairList.pipeline(recordSchema),
 })
 ```
 
@@ -50,11 +58,9 @@ const schema = md.document({
   "success": true,
   "data": {
     "title": "RUNBOOK: Record Values",
-    "frontmatter": {
-      "weights": {
-        "email": 3,
-        "sms": 4
-      }
+    "weights": {
+      "email": 3,
+      "sms": 4
     }
   }
 }
@@ -70,18 +76,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_number"
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
+        "path": [
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
 
 
 

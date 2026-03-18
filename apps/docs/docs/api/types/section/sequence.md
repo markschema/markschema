@@ -19,8 +19,8 @@ This method is a strong fit for section-scoped extraction where headings anchor 
 ```md
 ## 7. TAGS
 
-- Track: fraud-ops
 - Pillar: build
+- Track: fraud-ops
 ```
 
 ### Schema
@@ -65,24 +65,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "field_order_mismatch",
+        "code": "missing_section",
+        "message": "Missing section \"7. TAGS\"",
         "path": [
           "tags"
-        ]
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
-
 
 
 

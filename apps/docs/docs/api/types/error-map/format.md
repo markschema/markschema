@@ -19,7 +19,7 @@ This method is a strong fit for typed markdown parsing with deterministic contra
 ```md
 ## 1. META
 
-- Score: invalid
+- Score: 7
 ```
 
 ### Schema
@@ -67,22 +67,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_number",
-        "message": "Call map: invalid score"
+        "code": "missing_section",
+        "message": "Missing section \"1. META\"",
+        "path": [
+          "meta"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
-
 
 
 

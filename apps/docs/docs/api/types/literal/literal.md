@@ -12,6 +12,11 @@ Signature: `md.literal('Zayra')`
 
 Use `md.literal('Zayra')` when you need typed markdown parsing with deterministic contracts for `literal` workflows and want parsing behavior that remains enforceable in review and CI. Avoid it for exploratory drafts that intentionally avoid strict validation in `literal` documents, because it introduces key-level strictness that improves typing but rejects ad-hoc variations. It pairs well with `document()`, `section()`, `fields()`, and `literal()` to keep `literal` extraction boundaries explicit while preserving typed output for downstream code.
 
+### `md.literal('Zayra')`
+
+### Input Markdown
+
+```md
 ## 1. OWNER
 
 - Company: Zayra
@@ -71,160 +76,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-## Additional Scenarios
-
-### Numeric literal
-
-### Input Markdown
-
-```md
-## 1. META
-
-- Version: 1
-```
-
-### Schema
-
-```ts
-import { md } from '@markschema/mdshape'
-
-const schema = md.document({
-  meta: md.section('1. META').fields({
-    Version: md.literal(1),
-  }),
-})
-```
-
-### Result
-
-#### Success
-
-```json
-{
-  "success": true,
-  "data": {
-    "meta": {
-      "Version": 1
-    }
-  }
-}
-```
-
-#### Error
-
-Failure trigger: The input violates one or more constraints declared in the schema; use `issues[].path` and `issues[].code` to locate the exact failing node.
-
-```json
-{
-  "success": false,
-  "error": {
-    "issues": [
-      {
-        "code": "invalid_literal"
-      }
-    ]
-  }
-}
-```
-
-### literal as discriminant in unions
-
-### Input Markdown
-
-```md
-### Step A
-
-**NARRATION:** Validate signals.
-```
-
-### Schema
-
-```ts
-import { md } from '@markschema/mdshape'
-
-const intent = md.discriminatedUnion('type', [
-  md.object({ type: md.literal('NARRATION'), text: md.string().min(10) }),
-  md.object({ type: md.literal('VISUAL'), text: md.string().min(5) }),
-])
-
-const schema = md.section('3. EVENTS').subsections(3).each(
-  md.object({
-    intents: md.match
-      .labels(['NARRATION', 'VISUAL'])
-      .entries({ nameKey: 'type', contentKey: 'text' })
-      .each(intent),
-  }),
-)
-```
-
-### Result
-
-#### Success
-
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "intents": [
-        {
-          "type": "NARRATION",
-          "text": "Validate signals."
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### Error
-
-Failure trigger: The input violates one or more constraints declared in the schema; use `issues[].path` and `issues[].code` to locate the exact failing node.
-
-```json
-{
-  "success": false,
-  "error": {
-    "issues": [
-      {
-        "code": "missing_child_heading",
-        "message": "Section \"3. EVENTS\" has no child headings",
-        "path": [],
-        "line": 1,
-        "position": {
-          "start": {
-            "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 13,
-            "offset": 12
-          }
-        }
-      }
-    ]
-  }
-}
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

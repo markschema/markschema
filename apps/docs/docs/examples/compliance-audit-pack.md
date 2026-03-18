@@ -9,8 +9,8 @@ This example shows discriminated intent extraction, reference links, and custom 
 
 ## 0. META
 
-audit: PCI-DSS
-cycle: 2026-Q1
+- audit: PCI-DSS
+- cycle: 2026-Q1
 
 ## 1. OWNERS
 
@@ -22,11 +22,13 @@ cycle: 2026-Q1
 ### Evidence Collection
 
 **TYPE:** POLICY
+
 **TEXT:** Policy documents are versioned and immutable.
 
 ### Runtime Monitoring
 
 **TYPE:** METRIC
+
 **TEXT:** p95 scoring latency and citation coverage are monitored.
 
 ## 3. REFERENCES
@@ -57,9 +59,27 @@ const controlSchema = md.object({
 
 const schema = md
   .document({
-    meta: md.section('0. META').fields({}).min(1),
-      refs: md.section('3. REFERENCES').referenceLinks(md.object({ text: md.string().min(2), identifier: md.string(), url: md.url(), title: md.string().optional() })).min(1),
+    title: md.heading(1).regex(/^AUDIT PACK:\s.+/),
+    meta: md.section('0. META').fields({
+      audit: md.string().min(3),
+      cycle: md.string().min(3),
     }),
+    owners: md.section('1. OWNERS').fields({
+      Security: md.string().min(3),
+      Risk: md.string().min(3),
+    }),
+    controls: md.section('2. CONTROLS').subsections(3).each(controlSchema).min(2),
+    references: md
+      .section('3. REFERENCES')
+      .referenceLinks(
+        md.object({
+          text: md.string().min(2),
+          identifier: md.string().min(2),
+          url: md.url(),
+          title: md.string().optional(),
+        }),
+      )
+      .min(1),
   })
   .errorMap((issue) => {
     if (issue.code === 'missing_section') return 'Required audit section missing'
@@ -76,16 +96,48 @@ const schema = md
   "success": true,
   "data": {
     "title": "AUDIT PACK: Checkout Risk Controls",
+    "meta": {
+      "audit": "PCI-DSS",
+      "cycle": "2026-Q1"
+    },
     "owners": {
       "Security": "Priya N.",
       "Risk": "Lucas M."
     },
     "controls": [
       {
-        "title": "Evidence Collection"
+        "title": "Evidence Collection",
+        "intent": [
+          {
+            "name": "TYPE",
+            "value": "POLICY"
+          },
+          {
+            "name": "TEXT",
+            "value": "Policy documents are versioned and immutable."
+          }
+        ]
       },
       {
-        "title": "Runtime Monitoring"
+        "title": "Runtime Monitoring",
+        "intent": [
+          {
+            "name": "TYPE",
+            "value": "METRIC"
+          },
+          {
+            "name": "TEXT",
+            "value": "p95 scoring latency and citation coverage are monitored."
+          }
+        ]
+      }
+    ],
+    "references": [
+      {
+        "text": "Policy Baseline",
+        "identifier": "policy",
+        "url": "https://example.com/policy-baseline",
+        "title": "Policy Baseline"
       }
     ]
   }
@@ -102,28 +154,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "missing_section",
-        "message": "Required audit section missing",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "references",
-          "refs"
-        ]
-      },
-      {
-        "code": "invalid_enum_value",
-        "path": [
-          "controls",
-          0,
-          "intent",
-          0,
-          "value"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
 
 
 

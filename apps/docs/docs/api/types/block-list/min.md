@@ -22,6 +22,7 @@ Use `md.block.list(schema).min(size)` when you need typed markdown parsing with 
 ### Operational Tools
 
 - Kafka
+- Flink
 ```
 
 ### Schema
@@ -73,25 +74,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "list_too_small",
+        "code": "missing_section",
+        "message": "Missing section \"6. TOOLS\"",
         "path": [
-          "tools",
-          0,
-          "items"
-        ]
+          "tools"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 
 

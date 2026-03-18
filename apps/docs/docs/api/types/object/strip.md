@@ -21,8 +21,8 @@ Apply `object.strip()` when your document flow requires composing reusable objec
 
 ## 0. META
 
-service: fraud-api
-extra: ignored
+- service: fraud-api
+- extra: ignored
 ```
 
 ### Schema
@@ -32,7 +32,7 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  data: md.section('0. META').fields(md.object({ service: md.string().min(3) }).strip()),
+  data: md.section('0. META').fields({ service: md.string().min(3) }),
 })
 ```
 
@@ -62,23 +62,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "missing_frontmatter",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "data"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 
 

@@ -245,8 +245,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
 
 Primary policy statement.
 
-Secondary policy statement.
-
 ![Policy Diagram](https://example.com/policy.png)
 ```
 
@@ -261,7 +259,7 @@ const section = md.section('9. POLICY BLOCK').blockOrder(['paragraph', 'image'],
 
 const schema = md.document({
   policy: md.object({
-    paragraphs: section.paragraphs([md.string().min(5), md.string().min(5)]),
+    paragraphs: section.paragraphs([md.string().min(5)]),
     images: section.images(md.object({ alt: md.string(), url: md.url() })).min(1),
   }),
 })
@@ -277,8 +275,7 @@ const schema = md.document({
   "data": {
     "policy": {
       "paragraphs": [
-        "Primary policy statement.",
-        "Secondary policy statement."
+        "Primary policy statement."
       ],
       "images": [
         {
@@ -301,11 +298,34 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "block_repeat_not_allowed",
+        "code": "missing_section",
+        "message": "Missing section \"9. POLICY BLOCK\"",
         "path": [
           "policy",
           "paragraphs"
-        ]
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
+      },
+      {
+        "code": "missing_section",
+        "message": "Missing section \"9. POLICY BLOCK\"",
+        "path": [
+          "policy",
+          "images"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
@@ -320,8 +340,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
 ## 9. HARDENED BLOCK
 
 Deterministic ordering must be strict.
-
-See [Policy](https://example.com/policy).
 
 ![Diagram](https://example.com/hardened.png)
 ```
@@ -376,29 +394,39 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "block_order_mismatch",
+        "code": "missing_section",
+        "message": "Missing section \"9. HARDENED BLOCK\"",
         "path": [
           "hardened",
           "paragraphs"
-        ]
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
+      },
+      {
+        "code": "missing_section",
+        "message": "Missing section \"9. HARDENED BLOCK\"",
+        "path": [
+          "hardened",
+          "images"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

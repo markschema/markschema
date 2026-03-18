@@ -19,7 +19,7 @@ Choose `md.string().min(length)` for typed markdown parsing with deterministic c
 ```md
 ## 1. META
 
-- Team: Risk
+- Team: Risk Team
 ```
 
 ### Schema
@@ -59,25 +59,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "string_too_short",
+        "code": "missing_section",
+        "message": "Missing section \"1. META\"",
         "path": [
-          "meta",
-          "Team"
-        ]
+          "meta"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
-
 
 
 

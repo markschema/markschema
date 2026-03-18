@@ -61,10 +61,10 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "missing_heading",
-        "message": "Missing heading with depth 1",
+        "code": "missing_frontmatter",
+        "message": "Missing YAML frontmatter block",
         "path": [
-          "title"
+          "rawFrontmatter"
         ],
         "line": 1,
         "position": {
@@ -129,10 +129,10 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "missing_heading",
-        "message": "Missing heading with depth 1",
+        "code": "missing_frontmatter",
+        "message": "Missing YAML frontmatter block",
         "path": [
-          "title"
+          "rawFrontmatter"
         ],
         "line": 1,
         "position": {
@@ -146,29 +146,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

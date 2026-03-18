@@ -702,13 +702,9 @@ function evaluateScenario(scenario) {
       candidateInputs.push(scenario.invalidMarkdown)
     }
 
-    let current = selectedValidInput
-    current = mutateMarkdownRemoveHeading(current)
-    candidateInputs.push(current)
-    current = mutateMarkdownSwapNumberedSections(current)
-    candidateInputs.push(current)
-    current = mutateMarkdownRemoveSemanticLine(current)
-    candidateInputs.push(current)
+    candidateInputs.push(mutateMarkdownRemoveSemanticLine(selectedValidInput))
+    candidateInputs.push(mutateMarkdownSwapNumberedSections(selectedValidInput))
+    candidateInputs.push(mutateMarkdownRemoveHeading(selectedValidInput))
     candidateInputs.push('')
 
     for (const candidateInput of candidateInputs) {

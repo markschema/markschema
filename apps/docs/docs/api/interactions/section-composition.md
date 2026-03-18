@@ -79,23 +79,32 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "section_order_mismatch",
-        "message": "Section \"9. ADVANCED BLOCK\" appears before \"3. OPERATIONAL GOALS\"",
+        "code": "missing_section",
+        "message": "Missing section \"3. OPERATIONAL GOALS\"",
         "path": [
-          "advanced",
-          "paragraphs"
+          "goals",
+          "description"
         ],
         "line": 1,
         "position": {
           "start": {
             "line": 1,
-            "column": 1,
-            "offset": 0
-          },
-          "end": {
+            "column": 1
+          }
+        }
+      },
+      {
+        "code": "missing_section",
+        "message": "Missing section \"3. OPERATIONAL GOALS\"",
+        "path": [
+          "goals",
+          "items"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
             "line": 1,
-            "column": 21,
-            "offset": 20
+            "column": 1
           }
         }
       }
@@ -103,16 +112,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-
 
 
 

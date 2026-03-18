@@ -90,8 +90,8 @@ Failure trigger: if the section has no nested levels (only flat list items), `ne
   "error": {
     "issues": [
       {
-        "code": "missing_nested_list",
-        "message": "Section \"9. ADVANCED BLOCK\" must contain a nested list",
+        "code": "missing_section",
+        "message": "Missing section \"9. ADVANCED BLOCK\"",
         "path": [
           "nested"
         ],
@@ -107,3 +107,6 @@ Failure trigger: if the section has no nested levels (only flat list items), `ne
   }
 }
 ```
+
+
+

@@ -15,13 +15,12 @@ Use `md.record(keySchema, valueSchema) overload` when you need typed markdown pa
 ### Input Markdown
 
 ```md
----
-weights:
-  email: 3
-  sms: 4
----
-
 # RUNBOOK: Record Keys and Values
+
+## 2. WEIGHTS
+
+- email=3
+- sms=4
 ```
 
 ### Schema
@@ -29,13 +28,22 @@ weights:
 ```ts
 import { md } from '@markschema/mdshape'
 
+const pairList = md.section('2. WEIGHTS').list(md.string().min(3))
+
+const recordSchema = md.preprocess(
+  (entries) =>
+    Object.fromEntries(
+      (entries ?? []).map((entry) => {
+        const [key, value] = String(entry).split('=')
+        return [key, Number(value)]
+      }),
+    ),
+  md.record(md.string().min(3), md.number().int().min(1)),
+)
+
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      weights: md.record(md.string().min(3), md.number().int().min(1)),
-    }),
-  ),
+  weights: pairList.pipeline(recordSchema),
 })
 ```
 
@@ -48,75 +56,9 @@ const schema = md.document({
   "success": true,
   "data": {
     "title": "RUNBOOK: Record Keys and Values",
-    "frontmatter": {
-      "weights": {
-        "email": 3,
-        "sms": 4
-      }
-    }
-  }
-}
-```
-
-#### Error
-
-Failure trigger: The input violates one or more constraints declared in the schema; use `issues[].path` and `issues[].code` to locate the exact failing node.
-
-```json
-{
-  "success": false,
-  "error": {
-    "issues": [
-      {
-        "code": "string_too_short"
-      }
-    ]
-  }
-}
-```
-
-## Additional Scenarios
-
-### Record + wrappers + object policy
-
-### Input Markdown
-
-```md
----
-weights:
-  email: 3
-  sms: 4
----
-
-# RUNBOOK: Record Advanced
-```
-
-### Schema
-
-```ts
-import { md } from '@markschema/mdshape'
-
-const schema = md.document({
-  title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      weights: md.record(md.string().min(3), md.number().int().min(1)).optional().default({}),
-    }),
-  ),
-})
-```
-
-### Result
-
-#### Success
-
-```json
-{
-  "success": true,
-  "data": {
-    "title": "RUNBOOK: Record Advanced",
-    "frontmatter": {
-      "weights": {}
+    "weights": {
+      "email": 3,
+      "sms": 4
     }
   }
 }
@@ -149,8 +91,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
 
 
 

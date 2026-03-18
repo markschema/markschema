@@ -17,13 +17,12 @@ Use `list(...).min(size)` when your list is required to contain at least N items
 ### Input Markdown
 
 ```md
----
-labels:
-  - urgent
-  - incident
----
-
 # RUNBOOK: List Min
+
+## 2. LABELS
+
+- urgent
+- incident
 ```
 
 ### Schema
@@ -33,11 +32,10 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      labels: md.list(md.string().min(3)).min(2),
-    }),
-  ),
+  labels: md
+    .section('2. LABELS')
+    .list(md.string().min(3))
+    .pipeline(md.list(md.string().min(3)).min(2)),
 })
 ```
 
@@ -50,12 +48,10 @@ const schema = md.document({
   "success": true,
   "data": {
     "title": "RUNBOOK: List Min",
-    "frontmatter": {
-      "labels": [
-        "urgent",
-        "incident"
-      ]
-    }
+    "labels": [
+      "urgent",
+      "incident"
+    ]
   }
 }
 ```
@@ -70,81 +66,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "list_too_small"
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
+        "path": [
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-## Additional Scenarios
-
-### list with nonempty semantics via array
-
-### Input Markdown
-
-```md
----
-labels:
-  - urgent
----
-
-# RUNBOOK: List Nonempty
-```
-
-### Schema
-
-```ts
-import { md } from '@markschema/mdshape'
-
-const schema = md.document({
-  title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      labels: md.array(md.string().min(3)).nonempty(),
-    }),
-  ),
-})
-```
-
-### Result
-
-#### Success
-
-```json
-{
-  "success": true,
-  "data": {
-    "title": "RUNBOOK: List Nonempty",
-    "frontmatter": {
-      "labels": [
-        "urgent"
-      ]
-    }
-  }
-}
-```
-
-#### Error
-
-Failure trigger: The input violates one or more constraints declared in the schema; use `issues[].path` and `issues[].code` to locate the exact failing node.
-
-```json
-{
-  "success": false,
-  "error": {
-    "issues": [
-      {
-        "code": "list_too_small"
-      }
-    ]
-  }
-}
-```
-
-
-
-
 
 
 

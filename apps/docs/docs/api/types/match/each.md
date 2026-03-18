@@ -89,14 +89,10 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_enum_value",
-        "message": "Expected one of STATUS, SEVERITY",
+        "code": "missing_section",
+        "message": "Missing section \"3. EVENTS\"",
         "path": [
-          "events",
-          0,
-          "facts",
-          0,
-          "name"
+          "events"
         ],
         "line": 1,
         "position": {
@@ -110,11 +106,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
-
-
-
 
 
 

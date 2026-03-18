@@ -21,8 +21,8 @@ Use `md.object(shape)` when you need composing reusable object contracts across 
 
 ## 0. META
 
-service: fraud-api
-notificationEmail: alerts@zayra.com
+- service: fraud-api
+- notificationEmail: alerts@zayra.com
 ```
 
 ### Schema
@@ -37,7 +37,10 @@ const alertConfig = md.object({
 
 const schema = md.document({
   title: md.heading(1),
-  config: md.section('0. META').fields(alertConfig),
+  config: md.section('0. META').fields({
+    service: md.string().min(3),
+    notificationEmail: md.email(),
+  }),
 })
 ```
 
@@ -68,24 +71,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_email",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "config",
-          "notificationEmail"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 
 

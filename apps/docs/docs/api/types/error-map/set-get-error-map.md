@@ -21,7 +21,7 @@ Use `setErrorMap(...) + getErrorMap()` when your app needs a single global error
 
 ## 1. OWNER
 
-- Email: not-an-email
+- Email: ops@zayra.com
 ```
 
 ### Schema
@@ -78,21 +78,22 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_email",
-        "message": "Global map: invalid email"
+        "code": "missing_section",
+        "message": "Missing section \"1. OWNER\"",
+        "path": [
+          "owner"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
-
 
 

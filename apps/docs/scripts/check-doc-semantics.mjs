@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { extractScenariosFromContent } from './doc-examples-lib.mjs'
 
 const docsRoot = path.resolve('docs')
 const typesRoot = path.join(docsRoot, 'api', 'types')
@@ -18,6 +19,7 @@ const REQUIRED_BLOCKS = [
   '#### Success',
   '#### Error',
 ]
+const METADATA_TYPE_SLUGS = new Set(['metadata', 'metadata-object'])
 
 const GENERIC_INTENT_PHRASES = [
   'Use this in production markdown parsing when you need the exact behavior described by the signature and strict typed output.',
@@ -406,6 +408,44 @@ function checkMethodTemplate(file, content) {
   }
 }
 
+function checkScenarioStructure(file, content) {
+  const hasInputMarkdownHeading = /^#{2,4}\s+Input Markdown\s*$/m.test(content)
+  if (!hasInputMarkdownHeading) {
+    return
+  }
+
+  const { scenarios } = extractScenariosFromContent(file, content)
+  if (scenarios.length === 0) {
+    addIssue(file, 'contains "Input Markdown" heading but no parseable runtime scenario')
+    return
+  }
+
+  scenarios.forEach((scenario, index) => {
+    const label = `scenario #${index + 1}`
+    if (scenario.parseError) {
+      addIssue(file, `${label} has invalid structure (${scenario.parseError})`)
+    }
+  })
+}
+
+function checkNoFrontmatterOutsideMetadataTypes(file, content) {
+  const relative = path.relative(typesRoot, file)
+  if (relative.startsWith('..')) return
+
+  const [typeSlug] = relative.split(path.sep)
+  if (!typeSlug || METADATA_TYPE_SLUGS.has(typeSlug)) {
+    return
+  }
+
+  if (/\bmd\.metadataObject\(/.test(content) || /\bmd\.metadata\(/.test(content)) {
+    addIssue(file, 'uses metadata builders outside metadata/metadata-object type menus')
+  }
+
+  if (/```(?:md|markdown)\s*\n---\s*\n/m.test(content)) {
+    addIssue(file, 'uses frontmatter in Input Markdown outside metadata/metadata-object type menus')
+  }
+}
+
 function extractTypeSpecificMethodLinks(indexContent) {
   const start = indexContent.indexOf('### Type-specific methods')
   const end = indexContent.indexOf('### Shared auxiliaries')
@@ -426,6 +466,7 @@ for (const file of typeFiles) {
   const content = fs.readFileSync(file, 'utf8')
   checkNoPlaceholderText(file, content)
   checkNoLegacyNaming(file, content)
+  checkNoFrontmatterOutsideMetadataTypes(file, content)
 
   const isIndex = path.basename(file) === 'index.md'
   if (!isIndex && file !== manifestPath) {
@@ -449,6 +490,7 @@ for (const file of walkMarkdownFiles(docsRoot)) {
   const content = fs.readFileSync(file, 'utf8')
   checkHeadingHierarchy(file, content)
   checkInputMarkdownOrder(file, content)
+  checkScenarioStructure(file, content)
   checkIntentEditorialQuality(
     file,
     content,

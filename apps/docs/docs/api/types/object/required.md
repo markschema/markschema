@@ -21,8 +21,8 @@ Use `object.required(keys?)` when you need composing reusable object contracts a
 
 ## 0. META
 
-service: fraud-api
-owner: risk-platform
+- service: fraud-api
+- owner: risk-platform
 ```
 
 ### Schema
@@ -37,7 +37,13 @@ const base = md.object({
 
 const schema = md.document({
   title: md.heading(1),
-  data: md.section('0. META').fields(base.required(['owner'])),
+  data: md
+    .section('0. META')
+    .fields({
+      service: md.string().min(3),
+      owner: md.string().optional(),
+    })
+    .pipeline(base.required(['owner'])),
 })
 ```
 
@@ -68,23 +74,23 @@ Failure trigger: remove `owner` from `0. META`; `base.required(['owner'])` fails
   "error": {
     "issues": [
       {
-        "code": "missing_field",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "data",
-          "owner"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
 
 
 

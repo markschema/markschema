@@ -21,8 +21,8 @@ Choose `object.merge(otherObject)` for composing reusable object contracts acros
 
 ## 0. META
 
-service: fraud-api
-region: us-east-1
+- service: fraud-api
+- region: us-east-1
 ```
 
 ### Schema
@@ -37,7 +37,13 @@ const merged = left.merge(right)
 
 const schema = md.document({
   title: md.heading(1),
-  data: md.section('0. META').fields(merged),
+  data: md
+    .section('0. META')
+    .fields({
+      service: md.string().min(3),
+      region: md.string().min(3),
+    })
+    .pipeline(merged),
 })
 ```
 
@@ -68,24 +74,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_type",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "data",
-          "service"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 
 

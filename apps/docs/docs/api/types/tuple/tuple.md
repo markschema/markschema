@@ -17,13 +17,12 @@ This method is a strong fit for typed markdown parsing with deterministic contra
 ### Input Markdown
 
 ```md
----
-window:
-  - critical
-  - 5
----
-
 # RUNBOOK: Tuple Window
+
+## 2. WINDOW
+
+- critical
+- 5
 ```
 
 ### Schema
@@ -31,13 +30,23 @@ window:
 ```ts
 import { md } from '@markschema/mdshape'
 
+const tupleSchema = md.preprocess(
+  (items) =>
+    Array.isArray(items)
+      ? items.map((item) => {
+          const raw = String(item).trim()
+          if (/^-?\d+$/.test(raw)) return Number(raw)
+          if (raw === 'true') return true
+          if (raw === 'false') return false
+          return raw
+        })
+      : items,
+  md.tuple([md.literal('critical'), md.number().int().min(1)]),
+)
+
 const schema = md.document({
   title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      window: md.tuple([md.literal('critical'), md.number().int().min(1)]),
-    }),
-  ),
+  window: md.section('2. WINDOW').list(md.string().min(1)).pipeline(tupleSchema),
 })
 ```
 
@@ -50,12 +59,10 @@ const schema = md.document({
   "success": true,
   "data": {
     "title": "RUNBOOK: Tuple Window",
-    "frontmatter": {
-      "window": [
-        "critical",
-        5
-      ]
-    }
+    "window": [
+      "critical",
+      5
+    ]
   }
 }
 ```
@@ -70,158 +77,23 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "invalid_type",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "frontmatter",
-          "window"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-## Additional Scenarios
-
-### Tuple with mixed primitives
-
-### Input Markdown
-
-```md
----
-window:
-  - critical
-  - 5
-  - true
----
-
-# RUNBOOK: Tuple Mixed
-```
-
-### Schema
-
-```ts
-import { md } from '@markschema/mdshape'
-
-const schema = md.document({
-  title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      window: md.tuple([md.literal('critical'), md.number().int().min(1), md.boolean()]),
-    }),
-  ),
-})
-```
-
-### Result
-
-#### Success
-
-```json
-{
-  "success": true,
-  "data": {
-    "title": "RUNBOOK: Tuple Mixed",
-    "frontmatter": {
-      "window": [
-        "critical",
-        5,
-        true
-      ]
-    }
-  }
-}
-```
-
-#### Error
-
-Failure trigger: The input violates one or more constraints declared in the schema; use `issues[].path` and `issues[].code` to locate the exact failing node.
-
-```json
-{
-  "success": false,
-  "error": {
-    "issues": [
-      {
-        "code": "invalid_type"
-      }
-    ]
-  }
-}
-```
-
-### Tuple item constraints with pipeline
-
-### Input Markdown
-
-```md
----
-window:
-  - critical
-  - "5"
----
-
-# RUNBOOK: Tuple Pipe
-```
-
-### Schema
-
-```ts
-import { md } from '@markschema/mdshape'
-
-const schema = md.document({
-  title: md.heading(1),
-  frontmatter: md.metadataObject(
-    md.object({
-      window: md.tuple([
-        md.literal('critical'),
-        md.coerce.number().pipeline(md.number().int().min(1).max(10)),
-      ]),
-    }),
-  ),
-})
-```
-
-### Result
-
-#### Success
-
-```json
-{
-  "success": true,
-  "data": {
-    "title": "RUNBOOK: Tuple Pipe",
-    "frontmatter": {
-      "window": [
-        "critical",
-        5
-      ]
-    }
-  }
-}
-```
-
-#### Error
-
-Failure trigger: The input violates one or more constraints declared in the schema; use `issues[].path` and `issues[].code` to locate the exact failing node.
-
-```json
-{
-  "success": false,
-  "error": {
-    "issues": [
-      {
-        "code": "invalid_number"
-      }
-    ]
-  }
-}
-```
-
-
-
-
-
 
 
 

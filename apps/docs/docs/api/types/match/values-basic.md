@@ -57,7 +57,10 @@ const schema = md.document({
     "events": [
       {
         "title": "Detection",
-        "facts": ["ACTIVE", "high"]
+        "facts": [
+          "ACTIVE",
+          "high"
+        ]
       }
     ]
   }
@@ -74,9 +77,11 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "missing_labeled_value",
-        "message": "Missing labeled values [STATUS, SEVERITY] in section \"Detection\"",
-        "path": ["events", 0, "facts"],
+        "code": "missing_section",
+        "message": "Missing section \"3. EVENTS\"",
+        "path": [
+          "events"
+        ],
         "line": 1,
         "position": {
           "start": {
@@ -89,3 +94,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
+
+
+

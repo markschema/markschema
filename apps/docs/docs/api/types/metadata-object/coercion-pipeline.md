@@ -64,24 +64,23 @@ Failure trigger: the coerced value fails pipeline constraints (for example `prio
   "error": {
     "issues": [
       {
-        "code": "value_too_big",
+        "code": "missing_frontmatter",
+        "message": "Missing YAML frontmatter block",
         "path": [
-          "frontmatter",
-          "priority"
-        ]
+          "frontmatter"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 
 

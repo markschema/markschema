@@ -67,10 +67,23 @@ Failure trigger: the value does not match any union branch (for example `Status:
   "error": {
     "issues": [
       {
-        "code": "invalid_union",
-        "path": ["meta", "Status"]
+        "code": "missing_section",
+        "message": "Missing section \"1. META\"",
+        "path": [
+          "meta"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
+
+
+

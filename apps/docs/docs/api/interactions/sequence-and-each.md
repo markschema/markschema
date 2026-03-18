@@ -1,8 +1,9 @@
 # Interaction: sequence and each
 
 This page shows every `sequence` flow currently supported by section builders.
+`sequence(...)` accepts both exact strings and regular expressions for subsection heading order.
 
-## Scenario 1: Timeline scenes (`headingLevel(...).sequence([...]).each(...)`)
+## Scenario 1: Timeline scenes with exact strings (`subsections(...).sequence([...strings]).each(...)`)
 
 ### Input Markdown
 
@@ -267,18 +268,18 @@ Failure trigger: The input violates one or more constraints declared in the sche
 }
 ```
 
-## Scenario 4: Regex sequence (`headingLevel(...).sequence([RegExp]).each(...)`)
+## Scenario 4: Regex sequence (`subsections(...).sequence([RegExp]).each(...)`)
 
 ### Input Markdown
 
 ```md
 ## 5. DEPLOYMENT WINDOW
 
-### [00:00-02:00] - Prepare
+### [00:00-02:00] - Intake
 
 **NARRATION:** Freeze write traffic and verify preflight checks.
 
-### [02:00-04:00] - Execute
+### [02:00-04:00] - Containment
 
 **NARRATION:** Run deployment and monitor rollback triggers.
 ```
@@ -292,7 +293,10 @@ const schema = md.document({
   steps: md
     .section('5. DEPLOYMENT WINDOW')
     .subsections(3)
-    .sequence([/^\[\d{2}:\d{2}-\d{2}:\d{2}\] - .+$/, /^\[\d{2}:\d{2}-\d{2}:\d{2}\] - .+$/])
+    .sequence([
+      /^\[\d{2}:\d{2}-\d{2}:\d{2}\] - Intake$/,
+      /^\[\d{2}:\d{2}-\d{2}:\d{2}\] - Containment$/,
+    ])
     .each(
       md.object({
         title: md.headingText(),
@@ -313,11 +317,11 @@ const schema = md.document({
   "data": {
     "steps": [
       {
-        "title": "[00:00-02:00] - Prepare",
+        "title": "[00:00-02:00] - Intake",
         "narration": "Freeze write traffic and verify preflight checks."
       },
       {
-        "title": "[02:00-04:00] - Execute",
+        "title": "[02:00-04:00] - Containment",
         "narration": "Run deployment and monitor rollback triggers."
       }
     ]
@@ -352,35 +356,6 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

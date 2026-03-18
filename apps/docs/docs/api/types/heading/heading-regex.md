@@ -53,8 +53,8 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "heading_pattern_mismatch",
-        "message": "Heading does not match required pattern /^RUNBOOK:\\s.+/",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
           "title"
         ],
@@ -70,12 +70,5 @@ Failure trigger: The input violates one or more constraints declared in the sche
   }
 }
 ```
-
-
-
-
-
-
-
 
 

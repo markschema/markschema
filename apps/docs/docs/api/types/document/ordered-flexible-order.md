@@ -79,11 +79,22 @@ Failure trigger: remove the top h1 title; the parse fails with `missing_heading`
     "issues": [
       {
         "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
           "title"
-        ]
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
+
+
+

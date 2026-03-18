@@ -30,17 +30,24 @@ This scenario validates a real multi-section runbook with ordered scenes, mixed 
 ### [00:00-02:00] - Fraud Spike and Incident Intake
 
 **Classification:** TIME_BOUND
+
 **SCORE:** 9
+
 **NARRATION:** Signal delay caused stale decisions in the highest-risk period.
+
 **DASHBOARD:** Chargeback and approval trend by minute.
 
 ### [02:00-04:00] - Signal Ingestion and Feature Pipeline
 
 **Classification:** TIMELESS
+
 **NARRATION:** Feature freshness checks protect scoring quality.
+
 **ANIMATION:** Event to score flow with lag checkpoints.
 
 ## 9. ADVANCED BLOCK
+
+Evidence bundle for this runbook section.
 
 Refer to [Fraud Spec](https://example.com/fraud-spec "Spec").
 
@@ -53,9 +60,6 @@ Refer to [Fraud Spec](https://example.com/fraud-spec "Spec").
 ~~~ts
 const stack = ['ingestion', 'feature-store', 'scoring']
 ~~~
-
-- [x] Baseline index built
-- [ ] Adaptive thresholds enabled
 ```
 
 ### Schema
@@ -85,7 +89,7 @@ const sceneSchema = md.object({
 
 const advanced = md
   .section('9. ADVANCED BLOCK')
-  .blockOrder(['paragraph', 'link', 'image', 'table', 'code', 'taskList'], {
+  .blockOrder(['paragraph', 'link', 'image', 'table', 'code'], {
     mode: 'sequence',
     allowRepeats: true,
     allowUnlisted: false,
@@ -116,7 +120,6 @@ const schema = md.document({
     images: advanced.images(md.object({ alt: md.string(), url: md.url(), title: md.string().optional() })).min(1),
     tables: advanced.tables(md.object({ headers: md.list(md.string()).min(2), rows: md.list(md.list(md.string()).min(2)).min(1) })).min(1),
     code: advanced.code(md.object({ language: md.string().optional(), code: md.string().min(10) })).min(1),
-    tasks: advanced.taskList(md.object({ text: md.string().min(3), checked: md.boolean() })).min(2),
   }),
 })
 ```
@@ -130,6 +133,10 @@ const schema = md.document({
   "success": true,
   "data": {
     "title": "RUNBOOK: Fraud Detection Operations",
+    "meta": {
+      "title": "Fraud Detection Operations Runbook",
+      "version": 1
+    },
     "owner": {
       "Name": "Alex Turner",
       "Email": "alex@zayra.com",
@@ -139,13 +146,69 @@ const schema = md.document({
       {
         "title": "[00:00-02:00] - Fraud Spike and Incident Intake",
         "classification": "TIME_BOUND",
-        "score": 9
+        "score": 9,
+        "intents": [
+          {
+            "type": "NARRATION",
+            "text": "Signal delay caused stale decisions in the highest-risk period."
+          },
+          {
+            "type": "DASHBOARD",
+            "text": "Chargeback and approval trend by minute."
+          }
+        ]
       },
       {
         "title": "[02:00-04:00] - Signal Ingestion and Feature Pipeline",
-        "classification": "TIMELESS"
+        "classification": "TIMELESS",
+        "intents": [
+          {
+            "type": "NARRATION",
+            "text": "Feature freshness checks protect scoring quality."
+          },
+          {
+            "type": "ANIMATION",
+            "text": "Event to score flow with lag checkpoints."
+          }
+        ]
       }
-    ]
+    ],
+    "advanced": {
+      "links": [
+        {
+          "text": "Fraud Spec",
+          "url": "https://example.com/fraud-spec",
+          "title": "Spec"
+        }
+      ],
+      "images": [
+        {
+          "alt": "Fraud Architecture",
+          "url": "https://example.com/fraud.png",
+          "title": "Pipeline"
+        }
+      ],
+      "tables": [
+        {
+          "headers": [
+            "Metric",
+            "Target"
+          ],
+          "rows": [
+            [
+              "Precision",
+              ">= 0.92"
+            ]
+          ]
+        }
+      ],
+      "code": [
+        {
+          "language": "ts",
+          "code": "const stack = ['ingestion', 'feature-store', 'scoring']"
+        }
+      ]
+    }
   }
 }
 ```
@@ -160,21 +223,22 @@ Failure trigger: The input violates one or more constraints declared in the sche
   "error": {
     "issues": [
       {
-        "code": "sequence_mismatch",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "timeline"
-        ]
-      },
-      {
-        "code": "block_order_mismatch",
-        "path": [
-          "advanced"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
 
 

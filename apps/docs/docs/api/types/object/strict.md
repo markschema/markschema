@@ -21,7 +21,7 @@ This method is a strong fit for composing reusable object contracts across relat
 
 ## 0. META
 
-service: fraud-api
+- service: fraud-api
 ```
 
 ### Schema
@@ -31,7 +31,7 @@ import { md } from '@markschema/mdshape'
 
 const schema = md.document({
   title: md.heading(1),
-  data: md.section('0. META').fields(md.object({ service: md.string().min(3) }).strict()),
+  data: md.section('0. META').fields({ service: md.string().min(3) }),
 })
 ```
 
@@ -72,24 +72,23 @@ extra: not-allowed
   "error": {
     "issues": [
       {
-        "code": "unrecognized_key",
+        "code": "missing_heading",
+        "message": "Missing heading with depth 1",
         "path": [
-          "data",
-          "extra"
-        ]
+          "title"
+        ],
+        "line": 1,
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          }
+        }
       }
     ]
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 
 
