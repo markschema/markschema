@@ -40,3 +40,6 @@ yarn-error.log*
 
 cache
 .temp
+.agents
+
+skill-lock.json
