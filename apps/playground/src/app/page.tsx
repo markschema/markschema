@@ -1,6 +1,6 @@
-npm run build'use client'
+"use client";
 
-import { PlaygroundClient } from '@/components/playground-client'
+import { PlaygroundClient } from "@/components/playground-client";
 
 export default function Page() {
   return (
@@ -10,5 +10,5 @@ export default function Page() {
         <PlaygroundClient />
       </div>
     </main>
-  )
+  );
 }
