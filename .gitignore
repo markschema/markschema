@@ -43,3 +43,5 @@ cache
 .agents
 
 skill-lock.json
+
+.claude
