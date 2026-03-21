@@ -59,7 +59,7 @@ export const proof = {
     { value: '10', label: 'Interaction guides' },
     { value: '6', label: 'E2E examples' },
     { value: '9', label: 'Runtime tests' },
-    { value: '1', label: 'llms.txt ready' },
+    { label: 'llms.txt ready' },
   ],
 }
 
