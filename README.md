@@ -1,159 +1,105 @@
-# Turborepo starter
+# mdschema
 
-This Turborepo starter is maintained by the Turborepo core team.
+A toolkit for validating and structuring Markdown documents. mdschema provides TypeScript libraries to transform unstructured Markdown into typed, validated, and predictable data.
 
-## Using this example
+## Tools
 
-Run the following command:
+### `@markschema/mdshape` — available now
 
-```sh
-npx create-turbo@latest
+A Markdown validation library with a schema-first API. Define a schema for sections, fields, frontmatter, lists, and tables — mdshape parses and validates with full type inference.
+
+```ts
+import { md } from "@markschema/mdshape";
+
+const schema = md.document({
+  frontmatter: md.frontmatter({
+    title: md.string(),
+    date: md.date(),
+  }),
+  body: md.section({
+    heading: md.heading(2),
+    content: md.block(),
+  }),
+});
+
+const result = schema.parse(markdownString);
+// result is fully typed
 ```
 
-## What's inside?
+**27 builders** for documents, frontmatter, primitives, collections, composition, and transforms. Supports GFM (tables, task lists), LaTeX math, and YAML frontmatter.
 
-This Turborepo includes the following packages/apps:
+## Repository structure
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@markschema/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@markschema/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@markschema/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```
+markschema/
+├── apps/
+│   ├── playground/      # Interactive IDE for testing schemas (Next.js, port 3001)
+│   └── docs/            # Documentation site (VitePress)
+└── packages/
+    ├── mdshape/         # Core library (@markschema/mdshape)
+    ├── ui/              # Shared React components
+    ├── tailwind-config/ # Shared Tailwind configuration
+    ├── eslint-config/   # Shared ESLint configuration
+    └── typescript-config/ # Shared TypeScript configuration
 ```
 
-Without global `turbo`, use your package manager:
+## Getting started
+
+**Requirements:** Node >= 18, npm >= 10
 
 ```sh
-cd my-turborepo
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+# Install dependencies
+npm install
+
+# Run everything in dev mode
+npm run dev
+
+# Run only the playground
+npm run dev --filter=@markschema/playground
+
+# Run only the docs
+npm run docs:dev
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+## Available scripts
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+| Script                | Description                                 |
+| --------------------- | ------------------------------------------- |
+| `npm run dev`         | Start all apps in development mode          |
+| `npm run build`       | Build all apps and packages                 |
+| `npm run lint`        | Run linting across the monorepo             |
+| `npm run check-types` | TypeScript type checking                    |
+| `npm run format`      | Format code with Prettier                   |
+| `npm run docs:dev`    | Start docs in dev mode                      |
+| `npm run docs:build`  | Build static docs                           |
+| `npm run docs:check`  | Validate links, semantics, and doc examples |
+
+## Apps
+
+### Playground
+
+Browser-based IDE with Monaco Editor, resizable panels (Markdown | Schema | Preview | Result), live validation, and URL state persistence for sharing examples.
+
+### Docs
+
+Full documentation with API reference, guides, 6 end-to-end schema examples (runbooks, postmortems, compliance audits, etc.), and playground integration.
+
+## Tech stack
+
+- **Turbo** — monorepo orchestration
+- **TypeScript 5.9** — typed across all packages
+- **Next.js 16 + React 19** — playground
+- **VitePress** — documentation
+- **Tailwind CSS 4** — styling
+- **Vitest** — unit testing
+- **tsup** — core package bundler
+
+## Development
+
+To run a specific package, use Turbo filters:
 
 ```sh
-turbo build --filter=docs
+npx turbo dev --filter=@markschema/mdshape
+npx turbo build --filter=@markschema/playground
+npx turbo test --filter=@markschema/mdshape
 ```
-
-Without global `turbo`:
-
-```sh
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
