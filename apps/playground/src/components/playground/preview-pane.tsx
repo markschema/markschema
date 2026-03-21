@@ -2,6 +2,7 @@
 
 import { isValidElement, useEffect, useMemo, useRef, useState } from 'react'
 import rehypeKatex from 'rehype-katex'
+import rehypeRaw from 'rehype-raw'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
@@ -114,7 +115,7 @@ export function PreviewPane(props: PreviewPaneProps) {
           <div className="play-preview-root">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[rehypeKatex]}
+              rehypePlugins={[rehypeRaw, rehypeKatex]}
               components={{
                 pre: ({ children, ...preProps }: any) => {
                   const child = Array.isArray(children) ? children[0] : children
