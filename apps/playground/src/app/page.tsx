@@ -1,4 +1,4 @@
-'use client'
+npm run build'use client'
 
 import { PlaygroundClient } from '@/components/playground-client'
 
