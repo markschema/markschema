@@ -10,7 +10,10 @@
     "docs:dev": "npm run --workspace @markschema/docs dev",
     "docs:build": "npm run --workspace @markschema/docs build",
     "docs:preview": "npm run --workspace @markschema/docs preview",
-    "docs:check": "npm run --workspace @markschema/docs check-quality"
+    "docs:check": "npm run --workspace @markschema/docs check-quality",
+    "docs:deploy": "turbo run build --filter=@markschema/docs && wrangler pages deploy apps/docs/docs/.vitepress/dist --project-name=markschema-docs",
+    "playground:deploy": "turbo run build --filter=@markschema/playground && wrangler pages deploy apps/playground/out --project-name=markschema-playground",
+    "deploy": "turbo run build && wrangler pages deploy apps/docs/docs/.vitepress/dist --project-name=markschema-docs && wrangler pages deploy apps/playground/out --project-name=markschema-playground"
   },
   "devDependencies": {
     "prettier": "^3.7.4",

@@ -155,6 +155,47 @@ export default defineConfig({
   description: "Type-safe Markdown validation with a Zod-like API.",
   cleanUrls: true,
   lastUpdated: true,
+  sitemap: {
+    hostname: "https://docs.markschema.com",
+  },
+  head: [
+    ["meta", { property: "og:type", content: "website" }],
+    ["meta", { property: "og:title", content: "mdshape — Type-safe Markdown Validation" }],
+    ["meta", { property: "og:description", content: "Parse, validate, and convert Markdown into strongly-typed JSON. Built for RAG pipelines, PDF-to-MD validation, and structured content ingestion." }],
+    ["meta", { property: "og:url", content: "https://docs.markschema.com" }],
+    ["meta", { property: "og:site_name", content: "markschema" }],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    ["meta", { name: "twitter:title", content: "mdshape — Type-safe Markdown Validation" }],
+    ["meta", { name: "twitter:description", content: "Parse, validate, and convert Markdown into strongly-typed JSON. Built for RAG pipelines, PDF-to-MD validation, and structured content ingestion." }],
+    ["meta", { property: "og:image", content: "https://docs.markschema.com/og.png" }],
+    ["meta", { name: "twitter:image", content: "https://docs.markschema.com/og.png" }],
+    ["link", { rel: "canonical", href: "https://docs.markschema.com" }],
+    ["meta", { name: "theme-color", content: "#000000" }],
+    ["meta", { name: "author", content: "Refiski" }],
+    ["link", { rel: "icon", href: "/favicon.ico" }],
+    ["script", { type: "application/ld+json" }, JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "mdshape",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "description": "Type-safe Markdown validation with a Zod-like API. Parse, validate, and convert Markdown into strongly-typed JSON.",
+      "url": "https://docs.markschema.com",
+      "author": {
+        "@type": "Organization",
+        "name": "Refiski",
+        "url": "https://refiski.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "codeRepository": "https://github.com/markschema/markschema"
+    })],
+  ],
   themeConfig: {
     nav: [
       { text: "Getting Started", link: "/getting-started" },
@@ -163,6 +204,7 @@ export default defineConfig({
       { text: "Interactions", link: "/api/interactions/section-composition" },
       { text: "Error Handling", link: "/guides/error-handling" },
       { text: "Examples", link: "/examples/runbook-fraud" },
+      { text: "llms.txt", link: "/llms.txt" },
     ],
     sidebar: [
       {
@@ -259,6 +301,9 @@ export default defineConfig({
           { text: "Lesson Schema", link: "/examples/lesson-schema" },
         ],
       },
+    ],
+    socialLinks: [
+      { icon: "github", link: "https://github.com/markschema/markschema" },
     ],
     search: {
       provider: "local",

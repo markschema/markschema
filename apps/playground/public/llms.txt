@@ -1,0 +1,38 @@
+# markschema / mdshape — Playground
+
+> Interactive playground for mdshape, a TypeScript library for type-safe Markdown validation.
+
+## About
+
+The markschema playground lets you write Markdown on the left, define a schema on the right, and validate in real time. It runs entirely in the browser.
+
+## Links
+
+- Playground: https://playground.markschema.com
+- Docs: https://docs.markschema.com
+- GitHub: https://github.com/markschema/markschema
+- npm: @markschema/mdshape
+
+## What is mdshape?
+
+mdshape is a TypeScript library that lets you define schemas for Markdown documents. Think of it as Zod or Yup for Markdown — it parses and validates the structure of .md files, extracting typed data you can trust.
+
+## Use Cases
+
+- RAG Pipelines: Validate Markdown before feeding it into retrieval-augmented generation pipelines.
+- PDF-to-Markdown: Verify converted PDFs match expected structure.
+- Documentation Standards: Enforce consistent structure across docs.
+
+## Quick Example
+
+```typescript
+import { md } from '@markschema/mdshape'
+
+const schema = md.document({
+  title: md.heading(1),
+  overview: md.section('Overview').fields({
+    Name: md.string().min(1),
+    License: md.enum(['MIT', 'Apache-2.0', 'GPL-3.0']),
+  }),
+})
+```

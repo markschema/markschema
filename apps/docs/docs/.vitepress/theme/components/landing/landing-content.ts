@@ -59,6 +59,7 @@ export const proof = {
     { value: '10', label: 'Interaction guides' },
     { value: '6', label: 'E2E examples' },
     { value: '9', label: 'Runtime tests' },
+    { value: '1', label: 'llms.txt ready' },
   ],
 }
 
@@ -277,6 +278,11 @@ export const faq = {
       question: 'Does it modify my markdown?',
       answer:
         'No. mdshape is read-only. It parses and extracts — it never changes the source markdown. Your files stay portable and untouched.',
+    },
+    {
+      question: 'Is the documentation LLM-friendly?',
+      answer:
+        'Yes. We serve a llms.txt file at docs.markschema.com/llms.txt with the full documentation index — pages, API types, guides, and examples — so LLMs and AI agents can discover and reference our docs natively.',
     },
   ],
   ctaPrimary: { label: 'Try It in the Playground', href: '/playground/' },

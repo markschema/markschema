@@ -31,77 +31,72 @@ import { inferDocumentTitle, isLikelyUrl } from '@/lib/markdown-utils'
 import { MONACO_MDSHAPE_ALIAS_DTS, MONACO_MDSHAPE_PACKAGE_DTS } from '@/lib/monaco-mdshape-dts'
 
 const DEFAULT_MARKDOWN = `---
-title: Incident Timeline
+title: mdshape
 version: 1
 ---
 
-# RUNBOOK: Incident Timeline
+# What is mdshape?
 
-## 1. META
+## Overview
 
-- Service: Checkout Fraud API
-- Severity: high
+- Name: mdshape
+- Category: Schema Validation
+- License: MIT
 
-## 2. INCIDENT EVENTS
+## Description
 
-### Detection
+**mdshape** is a TypeScript library that lets you define schemas for Markdown documents. Think of it as **Zod or Yup for Markdown** — it parses and validates the structure of your \`.md\` files, extracting typed data you can trust.
 
-**STATUS:** ACTIVE
+## Use Cases
 
-**NARRATION:** Alerts fired for chargeback spike and low-confidence approvals.
+### RAG Pipelines
 
-### Mitigation
+**SUMMARY:** Validate Markdown before feeding it into your retrieval-augmented generation pipeline. Catch structural errors early and ensure consistent document formats.
 
-**STATUS:** 7
+### PDF-to-Markdown
 
-**NARRATION:** Threshold recalibration reduced false approvals after replay.
+**SUMMARY:** After converting PDFs to Markdown, use mdshape to verify the output matches your expected structure — headings, sections, metadata, and fields.
 
-~~~mermaid
-flowchart TD
-  A[Ingestion] --> B[Scoring]
-  B --> C[Decision]
-~~~
+### Documentation Standards
+
+**SUMMARY:** Enforce consistent structure across your docs: required sections, valid metadata, and properly formatted content.
 `
 
 const DEFAULT_SCHEMA = `import { md } from '@markschema/mdshape'
 
-const eventSchema = md.object({
+const useCaseSchema = md.object({
   title: md.headingText(),
-  status: md.match.label('STATUS').value(
-    md.union([
-      md.literal('ACTIVE'),
-      md.string().transform((value) => Number(value)).pipeline(md.number().min(0).max(10)),
-    ])
-  ),
-  narration: md.match.label('NARRATION').value(md.string().min(20)),
+  summary: md.match.label('SUMMARY').value(md.string().min(20)),
 })
 
 const schema = md.document({
   metadata: md.metadataObject(
     md.object({
-      title: md.string().min(5),
+      title: md.string().min(1),
       version: md.coerce.number().pipeline(md.number().int().min(1)),
     })
   ),
-  title: md.heading(1).regex(/^RUNBOOK:\\s.+/),
-  meta: md.section('1. META').fields({
-    Service: md.string().min(5),
-    Severity: md.enum(['low', 'medium', 'high']),
+  title: md.heading(1),
+  overview: md.section('Overview').fields({
+    Name: md.string().min(1),
+    Category: md.string(),
+    License: md.enum(['MIT', 'Apache-2.0', 'GPL-3.0']),
   }),
-  events: md
-    .section('2. INCIDENT EVENTS')
+  description: md.section('Description').paragraph(),
+  useCases: md
+    .section('Use Cases')
     .subsections(3)
-    .sequence(['Detection', 'Mitigation'])
-    .each(eventSchema)
+    .each(useCaseSchema)
     .min(2),
 })`
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value))
 const inferTitleFromFileName = (fileName: string) => fileName.replace(/\.(md|markdown|mdx)$/i, '').trim()
 const MOBILE_MEDIA_QUERY = '(max-width: 767px)'
-const SUPPORT_URL =
-  process.env.NEXT_PUBLIC_MDSHAPE_SUPPORT_URL ??
-  'mailto:support@zayra.app?subject=Support%20mdshape'
+const SUPPORT_EMAIL = 'daniel@refiski.com'
+const DOCS_URL = 'https://docs.markschema.com'
+const GITHUB_URL = 'https://github.com/markschema/markschema'
+const ISSUES_URL = 'https://github.com/markschema/markschema/issues'
 
 type PlaygroundUrlSeed = {
   title?: string
@@ -266,6 +261,7 @@ export function PlaygroundClient() {
   const syncingFromEditorRef = useRef(false)
   const syncingFromPreviewRef = useRef(false)
   const seededFromUrlRef = useRef(false)
+  const supportDialogRef = useRef<HTMLDialogElement | null>(null)
 
   const docKey = useMemo(() => getDocumentStorageKey(title), [title])
   const editorThemeName = theme === 'dark' ? 'mdshape-linear-dark' : 'mdshape-linear-light'
@@ -877,16 +873,7 @@ export function PlaygroundClient() {
     })
   }, [])
 
-  const resetAll = () => {
-    setTitle('')
-    setMarkdown(DEFAULT_MARKDOWN)
-    setSchemaCode(DEFAULT_SCHEMA)
-    setResult(null)
-    setCopyState('idle')
-    setResultTab('success')
-  }
-
-  const handleImportFile = useCallback(
+const handleImportFile = useCallback(
     async (file: File) => {
       try {
         const content = await file.text()
@@ -1030,18 +1017,56 @@ export function PlaygroundClient() {
           {result?.success ? 'Validation passed' : `Validation issues: ${result?.error?.issues?.length ?? 0}`}
         </Badge>
         <div className="flex items-center gap-2">
-          <Button type="button" variant="secondary" size="sm" asChild>
-            <a href={SUPPORT_URL} target="_blank" rel="noreferrer">
-              Support
+          <Button type="button" variant="outline" size="sm" asChild>
+            <a href={DOCS_URL} target="_blank" rel="noreferrer">
+              Docs
             </a>
           </Button>
-          <Button type="button" variant="outline" size="sm" onClick={resetAll}>
-            Reset markdown + schema
+          <Button type="button" variant="secondary" size="sm" onClick={() => supportDialogRef.current?.showModal()}>
+            Support
+          </Button>
+          <Button type="button" variant="outline" size="sm" asChild>
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+          </Button>
+          <Button type="button" variant="outline" size="sm" asChild>
+            <a href={ISSUES_URL} target="_blank" rel="noreferrer">
+              Issues
+            </a>
           </Button>
         </div>
       </div>
 
       {!prefsLoaded ? <div className="hidden" aria-hidden /> : null}
+
+      <dialog
+        ref={supportDialogRef}
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 rounded-lg border bg-background p-6 shadow-lg backdrop:bg-black/50"
+        onClick={(e) => { if (e.target === e.currentTarget) supportDialogRef.current?.close() }}
+      >
+        <div className="flex flex-col gap-4 min-w-75">
+          <h2 className="text-lg font-semibold">Support</h2>
+          <p className="text-sm text-muted-foreground">
+            Need help or have a question? Reach out to us via email:
+          </p>
+          <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
+            <span className="select-all font-mono">{SUPPORT_EMAIL}</span>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="ml-auto"
+              onClick={() => navigator.clipboard.writeText(SUPPORT_EMAIL)}
+            >
+              Copy
+            </Button>
+          </div>
+          <Button type="button" variant="outline" size="sm" onClick={() => supportDialogRef.current?.close()}>
+            Close
+          </Button>
+        </div>
+      </dialog>
     </section>
   )
 }

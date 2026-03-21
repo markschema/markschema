@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { Moon, SunMedium, WandSparkles } from 'lucide-react'
+import { Github, Moon, SunMedium, WandSparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
@@ -123,6 +123,22 @@ export function TopToolbar(props: ToolbarProps) {
           <TooltipContent>
             {props.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
           </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              asChild
+            >
+              <a href="https://github.com/markschema/markschema" target="_blank" rel="noreferrer" aria-label="Star on GitHub">
+                <Github className="size-4" />
+              </a>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Star on GitHub</TooltipContent>
         </Tooltip>
       </div>
 

@@ -1,0 +1,99 @@
+# markschema / mdshape
+
+> Type-safe Markdown validation with a Zod-like API. Parse and validate the structure of .md files, extracting typed data you can trust.
+
+mdshape is a TypeScript library that lets you define schemas for Markdown documents. Think of it as Zod or Yup for Markdown.
+
+## Links
+
+- Docs: https://docs.markschema.com
+- Playground: https://playground.markschema.com
+- GitHub: https://github.com/markschema/markschema
+- npm: @markschema/mdshape
+
+## Docs
+
+- [Getting Started](https://docs.markschema.com/getting-started)
+- [Playground](https://docs.markschema.com/playground/)
+
+### API — Types
+
+- [document](https://docs.markschema.com/api/types/document/)
+- [object](https://docs.markschema.com/api/types/object/)
+- [section](https://docs.markschema.com/api/types/section/)
+- [heading](https://docs.markschema.com/api/types/heading/)
+- [heading-text](https://docs.markschema.com/api/types/heading-text/)
+- [match](https://docs.markschema.com/api/types/match/)
+- [union](https://docs.markschema.com/api/types/union/)
+- [discriminated-union](https://docs.markschema.com/api/types/discriminated-union/)
+- [metadata-object](https://docs.markschema.com/api/types/metadata-object/)
+- [metadata](https://docs.markschema.com/api/types/metadata/)
+- [block-list](https://docs.markschema.com/api/types/block-list/)
+- [string](https://docs.markschema.com/api/types/string/)
+- [email](https://docs.markschema.com/api/types/email/)
+- [number](https://docs.markschema.com/api/types/number/)
+- [boolean](https://docs.markschema.com/api/types/boolean/)
+- [url](https://docs.markschema.com/api/types/url/)
+- [date](https://docs.markschema.com/api/types/date/)
+- [literal](https://docs.markschema.com/api/types/literal/)
+- [enum](https://docs.markschema.com/api/types/enum/)
+- [array](https://docs.markschema.com/api/types/array/)
+- [tuple](https://docs.markschema.com/api/types/tuple/)
+- [record](https://docs.markschema.com/api/types/record/)
+- [list](https://docs.markschema.com/api/types/list/)
+- [preprocess](https://docs.markschema.com/api/types/preprocess/)
+- [coerce](https://docs.markschema.com/api/types/coerce/)
+- [wrappers](https://docs.markschema.com/api/types/wrappers/)
+- [error-map](https://docs.markschema.com/api/types/error-map/)
+
+### API — Auxiliaries
+
+- [optional](https://docs.markschema.com/api/aux/optional)
+- [nullable](https://docs.markschema.com/api/aux/nullable)
+- [default](https://docs.markschema.com/api/aux/default)
+- [min](https://docs.markschema.com/api/aux/min)
+- [max](https://docs.markschema.com/api/aux/max)
+- [length](https://docs.markschema.com/api/aux/length)
+- [regex](https://docs.markschema.com/api/aux/regex)
+- [trim](https://docs.markschema.com/api/aux/trim)
+- [startswith](https://docs.markschema.com/api/aux/startswith)
+- [endswith](https://docs.markschema.com/api/aux/endswith)
+- [includes](https://docs.markschema.com/api/aux/includes)
+- [int](https://docs.markschema.com/api/aux/int)
+- [nonempty](https://docs.markschema.com/api/aux/nonempty)
+- [transform](https://docs.markschema.com/api/aux/transform)
+- [pipeline](https://docs.markschema.com/api/aux/pipeline)
+- [sequence](https://docs.markschema.com/api/aux/sequence)
+- [each](https://docs.markschema.com/api/aux/each)
+- [headers](https://docs.markschema.com/api/aux/headers)
+- [case-insensitive](https://docs.markschema.com/api/aux/case-insensitive)
+- [index](https://docs.markschema.com/api/aux/index)
+
+### API — Interactions
+
+- [section-composition](https://docs.markschema.com/api/interactions/section-composition)
+- [match-composition](https://docs.markschema.com/api/interactions/match-composition)
+- [object-ergonomics](https://docs.markschema.com/api/interactions/object-ergonomics)
+- [object-policies](https://docs.markschema.com/api/interactions/object-policies)
+- [sequence-and-each](https://docs.markschema.com/api/interactions/sequence-and-each)
+- [unions-in-markdown](https://docs.markschema.com/api/interactions/unions-in-markdown)
+- [wrappers-transform-pipeline](https://docs.markschema.com/api/interactions/wrappers-transform-pipeline)
+- [block-order-options](https://docs.markschema.com/api/interactions/block-order-options)
+- [document-order-frontmatter](https://docs.markschema.com/api/interactions/document-order-frontmatter)
+- [advanced-markdown-blocks](https://docs.markschema.com/api/interactions/advanced-markdown-blocks)
+
+### Guides
+
+- [Error Handling](https://docs.markschema.com/guides/error-handling)
+- [Block Order](https://docs.markschema.com/guides/block-order)
+- [Paragraph vs Paragraphs](https://docs.markschema.com/guides/paragraph-vs-paragraphs)
+- [Errors Reference](https://docs.markschema.com/guides/errors)
+
+### Examples
+
+- [Runbook Fraud](https://docs.markschema.com/examples/runbook-fraud)
+- [Incident Postmortem Pipeline](https://docs.markschema.com/examples/incident-postmortem-pipeline)
+- [Lesson Schema](https://docs.markschema.com/examples/lesson-schema)
+- [Risk Control Matrix](https://docs.markschema.com/examples/risk-control-matrix)
+- [Compliance Audit Pack](https://docs.markschema.com/examples/compliance-audit-pack)
+- [Builder Showcase](https://docs.markschema.com/examples/builder-showcase)
