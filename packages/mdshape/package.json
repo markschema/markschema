@@ -1,6 +1,6 @@
 {
   "name": "@markschema/mdshape",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "Type-safe Markdown validation with a schema-first API.",
   "author": "Daniel Marques Refiski <daniel@refiski.com>",
