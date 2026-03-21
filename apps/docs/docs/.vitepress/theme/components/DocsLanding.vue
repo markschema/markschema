@@ -6,6 +6,7 @@ import LandingFeaturesSection from './landing/LandingFeaturesSection.vue'
 import LandingHowItWorksSection from './landing/LandingHowItWorksSection.vue'
 import LandingComparisonSection from './landing/LandingComparisonSection.vue'
 import LandingFaqSection from './landing/LandingFaqSection.vue'
+import LandingFindUsSection from './landing/LandingFindUsSection.vue'
 </script>
 
 <template>
@@ -17,5 +18,6 @@ import LandingFaqSection from './landing/LandingFaqSection.vue'
     <LandingHowItWorksSection />
     <LandingComparisonSection />
     <LandingFaqSection />
+    <LandingFindUsSection />
   </main>
 </template>
