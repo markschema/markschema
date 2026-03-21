@@ -1,23 +1,49 @@
 {
   "name": "@markschema/mdshape",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "description": "Type-safe Markdown validation with a schema-first API.",
+  "author": "Daniel Marques Refiski <daniel@refiski.com>",
+  "license": "MIT",
+  "homepage": "https://docs.markschema.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markschema/markschema.git",
+    "directory": "packages/mdshape"
+  },
+  "bugs": {
+    "url": "https://github.com/markschema/markschema/issues"
+  },
+  "keywords": [
+    "markdown",
+    "schema",
+    "validation",
+    "type-safe",
+    "remark",
+    "frontmatter",
+    "mdshape",
+    "markschema"
+  ],
+  "sideEffects": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "check-types": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run"
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "remark": "^15.0.1",
