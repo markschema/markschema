@@ -1066,6 +1066,20 @@ export const parseMarkdownDocument = (markdown: string): TypeMdDocument => {
     collectInlineNodes(child, current, definitions, 'root')
 
     if (child.type === 'paragraph') {
+      const children = (child as any).children as any[] | undefined
+      const isHtmlOnly = children && children.length > 0 && children.every((c: any) => c.type === 'html')
+      if (isHtmlOnly) {
+        const text = children.map((c: any) => (c.value ?? '').trim()).join('')
+        if (text) {
+          current.blocks.push({
+            type: 'htmlBlock',
+            text,
+            line: lineFromPosition(child.position),
+            position: child.position,
+          })
+        }
+        continue
+      }
       const text = extractText(child).trim()
       if (text.length > 0) {
         const labelHint = extractParagraphLabelHint(child)
