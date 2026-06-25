@@ -20,8 +20,10 @@ import { trackLandingCtaClick } from './landing-analytics'
     <div class="rk-section-actions">
       <a
         class="rk-btn rk-btn--outline"
-        href="/playground/"
-        @click="trackLandingCtaClick({ ctaId: 'proof-playground', placement: 'proof', href: '/playground/' })"
+        href="https://playground.markschema.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        @click="trackLandingCtaClick({ ctaId: 'proof-playground', placement: 'proof', href: 'https://playground.markschema.com' })"
       >
         Open Playground
       </a>

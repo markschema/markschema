@@ -60,8 +60,10 @@ function statusClass(value: string): string {
     <div class="rk-section-actions">
       <a
         class="rk-btn rk-btn--primary"
-        href="/playground/"
-        @click="trackLandingCtaClick({ ctaId: 'comparison-playground', placement: 'comparison', href: '/playground/' })"
+        href="https://playground.markschema.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        @click="trackLandingCtaClick({ ctaId: 'comparison-playground', placement: 'comparison', href: 'https://playground.markschema.com' })"
       >
         Open Playground
       </a>

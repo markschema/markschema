@@ -14,6 +14,8 @@ import { trackLandingCtaClick } from './landing-analytics'
         <a
           class="rk-btn rk-btn--primary rk-btn--lg"
           :href="finalCta.ctaPrimary.href"
+          :target="finalCta.ctaPrimary.href.startsWith('http') ? '_blank' : undefined"
+          :rel="finalCta.ctaPrimary.href.startsWith('http') ? 'noopener noreferrer' : undefined"
           @click="trackLandingCtaClick({ ctaId: 'final-playground', placement: 'final-cta', href: finalCta.ctaPrimary.href })"
         >{{ finalCta.ctaPrimary.label }}</a>
         <a
