@@ -17,6 +17,7 @@
     "vitepress": "^1.6.4"
   },
   "dependencies": {
-    "@markschema/mdshape": "*"
+    "@markschema/mdshape": "*",
+    "posthog-js": "^1.393.5"
   }
 }
