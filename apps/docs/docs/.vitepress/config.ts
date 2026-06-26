@@ -199,7 +199,12 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: "Getting Started", link: "/getting-started" },
-      { text: "Playground", link: "/playground/" },
+      {
+        text: "Playground",
+        link: "https://playground.markschema.com",
+        target: "_blank",
+        rel: "noopener noreferrer",
+      },
       { text: "API by Type", link: "/api/" },
       { text: "Interactions", link: "/api/interactions/section-composition" },
       { text: "Error Handling", link: "/guides/error-handling" },

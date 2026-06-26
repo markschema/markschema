@@ -60,6 +60,8 @@ onBeforeUnmount(() => {
         <a
           class="rk-btn rk-btn--primary"
           :href="hero.ctaPrimary.href"
+          :target="hero.ctaPrimary.href.startsWith('http') ? '_blank' : undefined"
+          :rel="hero.ctaPrimary.href.startsWith('http') ? 'noopener noreferrer' : undefined"
           @click="trackLandingCtaClick({ ctaId: 'hero-playground', placement: 'hero', href: hero.ctaPrimary.href })"
         >
           {{ hero.ctaPrimary.label }}

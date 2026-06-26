@@ -14,7 +14,7 @@ export const hero = {
   rotatingPhrases: ["Typed JSON", "Validated Structure", "RAG-Ready Output"],
   subtitle:
     "Define a schema, parse any markdown, get strongly-typed JSON back. Built for RAG pipelines, PDF-to-MD validation, AI Skills, and structured content ingestion.",
-  ctaPrimary: { label: "Open Playground", href: "/playground/" },
+  ctaPrimary: { label: "Open Playground", href: "https://playground.markschema.com" },
   ctaSecondary: { label: "View Getting Started", href: "/getting-started" },
   signals: ["document()", "section()", "match()", "block()"],
   orbitItems: ["Parse MD", "Validate", "Extract", "Typed JSON"],
@@ -296,7 +296,7 @@ export const finalCta = {
   title: "Markdown In, Typed JSON Out",
   description:
     "Stop writing custom parsers. Define a schema, validate any markdown, get structured data ready for your database, RAG pipeline, or API.",
-  ctaPrimary: { label: "Open Playground", href: "/playground/" },
+  ctaPrimary: { label: "Open Playground", href: "https://playground.markschema.com" },
   ctaSecondary: { label: "View Getting Started", href: "/getting-started" },
   ctaTertiary: { label: "Browse API", href: "/api/" },
 };
