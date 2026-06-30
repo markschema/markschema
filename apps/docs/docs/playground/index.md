@@ -4,7 +4,7 @@ The playground runs as a dedicated Next.js application and can be embedded insid
 
 Local app URL:
 
-- `https://playground.markschema.com`
+- [`https://playground.markschema.com`](https://playground.markschema.com)
 
 Run it with:
 
